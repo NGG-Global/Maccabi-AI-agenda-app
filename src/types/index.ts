@@ -1,4 +1,4 @@
-export type SessionStatus = "completed" | "current" | "open" | "locked";
+export type SessionStatus = "completed" | "current" | "open";
 
 export type SessionFormat = "frontal" | "virtual" | "external";
 

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSessionById, getAdjacentSessions } from "@/data/sessions";
 import StatusBadge from "@/components/StatusBadge";
-import AdvisorPanel from "@/components/advisor/AdvisorPanel";
+import ElevenLabsAgent from "@/components/ElevenLabsAgent";
 import {
   ArrowRight,
   ArrowLeft,
@@ -17,13 +17,12 @@ import {
   Wrench,
   ClipboardList,
   ChevronRight,
-  Lock,
 } from "lucide-react";
 
 const formatConfig = {
   frontal: { label: "מפגש פרונטלי", Icon: Building2, className: "badge-frontal" },
   virtual: { label: "מפגש וירטואלי", Icon: Monitor, className: "badge-virtual" },
-  external: { label: "ספק חיצוני", Icon: Briefcase, className: "badge-external" },
+  external: { label: "ספד חיצוני", Icon: Briefcase, className: "badge-external" },
 };
 
 interface PageProps {
@@ -44,8 +43,12 @@ export default function SessionPage({ params }: PageProps) {
   const { prev, next } = getAdjacentSessions(sessionId);
   const fmt = formatConfig[session.format];
   const FmtIcon = fmt.Icon;
-  const isLocked = session.status === "locked";
   const isCurrent = session.status === "current";
+  const hasContent =
+    session.agenda.length > 0 ||
+    session.digitalTools.length > 0 ||
+    !!session.homework ||
+    !!session.description;
 
   return (
     <div className="space-y-6">
@@ -74,23 +77,31 @@ export default function SessionPage({ params }: PageProps) {
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-maccabi-text">
             {session.title}
           </h1>
-          <p className="text-maccabi-muted mt-1 text-base">{session.subtitle}</p>
+          {session.subtitle && (
+            <p className="text-maccabi-muted mt-1 text-base">{session.subtitle}</p>
+          )}
         </div>
 
-        <p className="text-maccabi-text leading-relaxed text-sm max-w-3xl">
-          {session.description}
-        </p>
+        {session.description && (
+          <p className="text-maccabi-text leading-relaxed text-sm max-w-3xl">
+            {session.description}
+          </p>
+        )}
 
         {/* Meta */}
         <div className="flex flex-wrap gap-5 text-sm text-maccabi-muted pt-1">
-          <div className="flex items-center gap-1.5">
-            <Calendar size={15} className="text-primary-400" />
-            <span>{session.date}</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Clock size={15} className="text-primary-400" />
-            <span>{session.duration}</span>
-          </div>
+          {session.date && (
+            <div className="flex items-center gap-1.5">
+              <Calendar size={15} className="text-primary-400" />
+              <span>{session.date}</span>
+            </div>
+          )}
+          {session.duration && (
+            <div className="flex items-center gap-1.5">
+              <Clock size={15} className="text-primary-400" />
+              <span>{session.duration}</span>
+            </div>
+          )}
           {session.participants && (
             <div className="flex items-center gap-1.5">
               <Users size={15} className="text-primary-400" />
@@ -107,68 +118,54 @@ export default function SessionPage({ params }: PageProps) {
       </div>
 
       {/* Main Content */}
-      {isLocked ? (
-        <div className="card p-10 flex flex-col items-center justify-center text-center space-y-4">
-          <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
-            <Lock size={32} className="text-gray-400" />
-          </div>
-          <h2 className="text-xl font-bold text-gray-500">מפגש זה טרם נפתח</h2>
-          <p className="text-maccabi-muted text-sm max-w-md leading-relaxed">
-            תוכן המפגש יהיה זמין לפי לוח הזמנים הרשמי של תוכנית אופק.
-            אנא חזרו בתאריך {session.date}.
-          </p>
-          <Link href="/" className="btn-primary mt-2">
-            חזרה למפת המסע
-          </Link>
-        </div>
-      ) : (
+      {hasContent ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left column: Agenda + Homework */}
           <div className="lg:col-span-2 space-y-6">
             {/* Agenda */}
-            <section className="space-y-3">
-              <h2 className="section-title flex items-center gap-2">
-                <ClipboardList size={20} className="text-primary" />
-                אג&#8217;נדת המפגש
-              </h2>
-              <div className="space-y-2">
-                {session.agenda.map((item, index) => (
-                  <div
-                    key={index}
-                    className={`card p-4 ${
-                      !item.description && !item.facilitator
-                        ? "bg-gray-50 opacity-60"
-                        : ""
-                    }`}
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                      {/* Time */}
-                      <div className="shrink-0">
-                        <span className="font-mono text-xs font-semibold text-primary bg-primary-50 px-2 py-1 rounded-md">
-                          {item.time}
-                        </span>
-                      </div>
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-maccabi-text text-sm">
-                          {item.title}
-                        </h3>
-                        {item.description && (
-                          <p className="text-maccabi-muted text-xs mt-1 leading-relaxed">
-                            {item.description}
-                          </p>
-                        )}
-                        {item.facilitator && (
-                          <p className="text-xs text-primary-500 mt-1 font-medium">
-                            מנחה: {item.facilitator}
-                          </p>
-                        )}
+            {session.agenda.length > 0 && (
+              <section className="space-y-3">
+                <h2 className="section-title flex items-center gap-2">
+                  <ClipboardList size={20} className="text-primary" />
+                  אג&#8217;נדת המפגש
+                </h2>
+                <div className="space-y-2">
+                  {session.agenda.map((item, index) => (
+                    <div
+                      key={index}
+                      className={`card p-4 ${
+                        !item.description && !item.facilitator
+                          ? "bg-gray-50 opacity-60"
+                          : ""
+                      }`}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                        <div className="shrink-0">
+                          <span className="font-mono text-xs font-semibold text-primary bg-primary-50 px-2 py-1 rounded-md">
+                            {item.time}
+                          </span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-maccabi-text text-sm">
+                            {item.title}
+                          </h3>
+                          {item.description && (
+                            <p className="text-maccabi-muted text-xs mt-1 leading-relaxed">
+                              {item.description}
+                            </p>
+                          )}
+                          {item.facilitator && (
+                            <p className="text-xs text-primary-500 mt-1 font-medium">
+                              מנחה: {item.facilitator}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </section>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Homework */}
             {session.homework && (
@@ -197,7 +194,7 @@ export default function SessionPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Right column: Tools + AI Advisor */}
+          {/* Right column: Tools + ElevenLabs Agent */}
           <div className="space-y-5">
             {/* Digital Tools */}
             {session.digitalTools.length > 0 && (
@@ -231,15 +228,22 @@ export default function SessionPage({ params }: PageProps) {
               </section>
             )}
 
-            {/* AI Advisor */}
-            <section>
-              <h2 className="section-title flex items-center gap-2 mb-3">
+            {/* ElevenLabs AI Agent */}
+            <section className="space-y-3">
+              <h2 className="section-title flex items-center gap-2">
                 <span className="text-primary">✦</span>
-                יועץ AI אישי
+                סוכן AI אישי
               </h2>
-              <AdvisorPanel sessionId={session.id} isAvailable={isCurrent} />
+              <ElevenLabsAgent />
             </section>
           </div>
+        </div>
+      ) : (
+        <div className="card p-10 flex flex-col items-center justify-center text-center space-y-3">
+          <p className="text-maccabi-muted text-sm">תוכן המפגש יתעדכן בקרוב.</p>
+          <Link href="/" className="btn-primary mt-2">
+            חזרה למפת המסע
+          </Link>
         </div>
       )}
 
@@ -267,11 +271,7 @@ export default function SessionPage({ params }: PageProps) {
         {next ? (
           <Link
             href={`/session/${next.id}`}
-            className={`flex items-center gap-2 text-sm transition-colors group ${
-              next.status === "locked"
-                ? "text-gray-400 cursor-not-allowed pointer-events-none"
-                : "text-maccabi-muted hover:text-primary"
-            }`}
+            className="flex items-center gap-2 text-sm text-maccabi-muted hover:text-primary transition-colors group"
           >
             <div className="text-left">
               <div className="text-xs">מפגש הבא</div>

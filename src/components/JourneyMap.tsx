@@ -1,6 +1,6 @@
 import { sessions } from "@/data/sessions";
 import SessionCard from "./SessionCard";
-import { CheckCircle2, Circle, Lock } from "lucide-react";
+import { CheckCircle2, Circle } from "lucide-react";
 
 function ProgressConnector({ status }: { status: "completed" | "active" | "inactive" }) {
   return (
@@ -22,8 +22,7 @@ function JourneyLegend() {
   const items = [
     { color: "bg-secondary", label: "הושלם" },
     { color: "bg-primary", label: "מפגש נוכחי" },
-    { color: "bg-gray-300", label: "פתוח לרישום" },
-    { color: "bg-gray-200", label: "טרם נפתח" },
+    { color: "bg-gray-300", label: "פתוח" },
   ];
 
   return (
@@ -89,9 +88,7 @@ export default function JourneyMap() {
         </div>
       </div>
 
-      {/* Bottom note */}
       <p className="text-xs text-maccabi-muted text-center pb-4">
-        מפגשים נעולים יפתחו לפי לוח הזמנים הרשמי של תוכנית אופק.
         לשאלות, פנו לצוות ההדרכה.
       </p>
     </section>

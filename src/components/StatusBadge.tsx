@@ -1,5 +1,5 @@
 import { SessionStatus } from "@/types";
-import { CheckCircle2, Lock, Circle, Zap } from "lucide-react";
+import { CheckCircle2, Circle, Zap } from "lucide-react";
 
 interface StatusBadgeProps {
   status: SessionStatus;
@@ -21,14 +21,9 @@ const statusConfig: Record<
     Icon: Zap,
   },
   open: {
-    label: "פתוח לרישום",
+    label: "פתוח",
     className: "bg-gray-50 text-gray-600 border border-gray-200",
     Icon: Circle,
-  },
-  locked: {
-    label: "טרם נפתח",
-    className: "bg-gray-50 text-gray-400 border border-gray-200",
-    Icon: Lock,
   },
 };
 
