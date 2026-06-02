@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getSessionById, getAdjacentSessions } from "@/data/sessions";
 import StatusBadge from "@/components/StatusBadge";
 import ElevenLabsAgent from "@/components/ElevenLabsAgent";
+import AgendaSection from "@/components/AgendaSection";
 import {
   ArrowRight,
   ArrowLeft,
@@ -14,7 +15,6 @@ import {
   Building2,
   Briefcase,
   BookOpen,
-  Wrench,
   ClipboardList,
   ChevronRight,
 } from "lucide-react";
@@ -46,7 +46,6 @@ export default function SessionPage({ params }: PageProps) {
   const isCurrent = session.status === "current";
   const hasContent =
     session.agenda.length > 0 ||
-    session.digitalTools.length > 0 ||
     !!session.homework ||
     !!session.description;
 
@@ -129,41 +128,7 @@ export default function SessionPage({ params }: PageProps) {
                   <ClipboardList size={20} className="text-primary" />
                   אג&#8217;נדת המפגש
                 </h2>
-                <div className="space-y-2">
-                  {session.agenda.map((item, index) => (
-                    <div
-                      key={index}
-                      className={`card p-4 ${
-                        !item.description && !item.facilitator
-                          ? "bg-gray-50 opacity-60"
-                          : ""
-                      }`}
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                        <div className="shrink-0">
-                          <span className="font-mono text-xs font-semibold text-primary bg-primary-50 px-2 py-1 rounded-md">
-                            {item.time}
-                          </span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-maccabi-text text-sm">
-                            {item.title}
-                          </h3>
-                          {item.description && (
-                            <p className="text-maccabi-muted text-xs mt-1 leading-relaxed">
-                              {item.description}
-                            </p>
-                          )}
-                          {item.facilitator && (
-                            <p className="text-xs text-primary-500 mt-1 font-medium">
-                              מנחה: {item.facilitator}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <AgendaSection items={session.agenda} />
               </section>
             )}
 
@@ -194,41 +159,8 @@ export default function SessionPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Right column: Tools + ElevenLabs Agent */}
+          {/* Right column: ElevenLabs Agent */}
           <div className="space-y-5">
-            {/* Digital Tools */}
-            {session.digitalTools.length > 0 && (
-              <section className="space-y-3">
-                <h2 className="section-title flex items-center gap-2">
-                  <Wrench size={20} className="text-primary" />
-                  כלים דיגיטליים
-                </h2>
-                <div className="space-y-3">
-                  {session.digitalTools.map((tool, index) => (
-                    <div key={index} className="card p-4 space-y-1 hover:border-primary-200 transition-colors">
-                      <h3 className="font-semibold text-sm text-maccabi-text">
-                        {tool.name}
-                      </h3>
-                      <p className="text-xs text-maccabi-muted leading-relaxed">
-                        {tool.description}
-                      </p>
-                      {tool.url && (
-                        <a
-                          href={tool.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-primary font-medium hover:underline"
-                        >
-                          פתח כלי ←
-                        </a>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* ElevenLabs AI Agent */}
             <section className="space-y-3">
               <h2 className="section-title flex items-center gap-2">
                 <span className="text-primary">✦</span>

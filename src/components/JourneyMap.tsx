@@ -1,62 +1,30 @@
 import { sessions } from "@/data/sessions";
 import SessionCard from "./SessionCard";
-import { CheckCircle2, Circle } from "lucide-react";
+import { Brain, Lightbulb, Wrench, Rocket, TrendingUp } from "lucide-react";
 
-function ProgressConnector({ status }: { status: "completed" | "active" | "inactive" }) {
+const programTracks = [
+  { icon: Brain,      label: "ניהול בעידן האג'נטי",              desc: "מפגש 1" },
+  { icon: Lightbulb, label: "כישורי מנהיגות בעידן ה-AI",         desc: "מפגש 2" },
+  { icon: Wrench,    label: "כלי AI לעבודה ניהולית",             desc: "מפגש 3" },
+  { icon: Rocket,    label: "מיישמים AI בשטח",                   desc: "מפגש 4" },
+  { icon: TrendingUp,label: "מובילים הטמעה",                     desc: "מפגש 5" },
+];
+
+function ProgramOverview() {
   return (
-    <div className="hidden lg:flex items-center justify-center w-8 shrink-0 mt-12">
-      <div
-        className={`h-0.5 w-full ${
-          status === "completed"
-            ? "bg-secondary"
-            : status === "active"
-            ? "bg-primary"
-            : "bg-maccabi-border"
-        }`}
-      />
-    </div>
-  );
-}
-
-function JourneyLegend() {
-  const items = [
-    { color: "bg-secondary", label: "הושלם" },
-    { color: "bg-primary", label: "מפגש נוכחי" },
-    { color: "bg-gray-300", label: "פתוח" },
-  ];
-
-  return (
-    <div className="flex flex-wrap items-center gap-4 text-xs text-maccabi-muted">
-      {items.map(({ color, label }) => (
-        <div key={label} className="flex items-center gap-1.5">
-          <div className={`w-3 h-3 rounded-full ${color}`} />
-          <span>{label}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ProgressBar() {
-  const total = sessions.length;
-  const completed = sessions.filter((s) => s.status === "completed").length;
-  const current = sessions.find((s) => s.status === "current");
-  const currentIndex = current ? sessions.findIndex((s) => s.id === current.id) : -1;
-  const progressPercent = currentIndex >= 0 ? Math.round(((currentIndex + 0.5) / total) * 100) : 0;
-
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between text-sm">
-        <span className="font-medium text-maccabi-text">התקדמות המסע</span>
-        <span className="text-maccabi-muted">
-          {completed} מתוך {total} מפגשים הושלמו
-        </span>
+    <div className="card p-5 space-y-4">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-semibold text-maccabi-text">מסלולי התוכנית</span>
+        <span className="text-xs text-maccabi-muted">9 מפגשים | שנה מלאה</span>
       </div>
-      <div className="w-full bg-maccabi-border rounded-full h-2">
-        <div
-          className="bg-primary h-2 rounded-full transition-all duration-700"
-          style={{ width: `${progressPercent}%` }}
-        />
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        {programTracks.map(({ icon: Icon, label, desc }) => (
+          <div key={label} className="flex flex-col items-center gap-2 p-3 rounded-xl bg-primary-50 border border-primary-100 text-center">
+            <Icon size={20} className="text-primary" />
+            <span className="text-xs font-medium text-maccabi-text leading-tight">{label}</span>
+            <span className="text-xs text-maccabi-muted">{desc}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -67,25 +35,20 @@ export default function JourneyMap() {
     <section className="space-y-8">
       {/* Header */}
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-maccabi-text">מסע הלמידה — תוכנית אופק</h1>
+        <h1 className="text-3xl font-bold text-maccabi-text">מנהיגות בעידן הבינה המלאכותית</h1>
         <p className="text-maccabi-muted text-base leading-relaxed max-w-2xl">
-          תוכנית פיתוח מנהלים של מכבי שירותי בריאות. תשעה מפגשים של למידה, חשיבה ויישום — מדריכים אותכם להיות מנהלים טובים יותר.
+          תוכנית פיתוח מנהלים של מכבי שירותי בריאות — תשעה מפגשים של למידה, התנסות ויישום בעידן ה-AI.
         </p>
       </div>
 
-      {/* Progress */}
-      <div className="card p-5 space-y-4">
-        <ProgressBar />
-        <JourneyLegend />
-      </div>
+      {/* Program tracks overview */}
+      <ProgramOverview />
 
       {/* Session Grid */}
-      <div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {sessions.map((session) => (
-            <SessionCard key={session.id} session={session} />
-          ))}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {sessions.map((session) => (
+          <SessionCard key={session.id} session={session} />
+        ))}
       </div>
 
       <p className="text-xs text-maccabi-muted text-center pb-4">
