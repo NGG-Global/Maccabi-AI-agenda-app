@@ -25,6 +25,7 @@ export const sessions: Session[] = [
           description:
             "אפליקציה דיגיטלית לניהול משחק המכירה הפומבית — כל משתתף מגיש את הצעותיו בזמן אמת, רואה את הצעות האחרים ועוקב אחר התוצאות על המסך הגדול.",
           buttonLabel: "כניסה למשחק",
+          url: "https://maccabi-ai-auction.vercel.app/join?event=Maccabi-2024",
         },
       },
       {
@@ -70,6 +71,7 @@ export const sessions: Session[] = [
           description:
             "פלטפורמת הסימולציה הניהולית — כל קבוצה נכנסת לסביבת ישיבת הצוות שלה, מקבלת גישה לדוחות ונתונים, ועובדת לצד סוכני AI (Performance ו-Well-being) לגיבוש המלצות מבוססות נתונים.",
           buttonLabel: "כניסה לסימולציה",
+          url: "https://hug-my-vision.lovable.app",
         },
       },
       {
