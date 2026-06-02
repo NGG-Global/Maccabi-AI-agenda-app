@@ -25,22 +25,22 @@ export default function SessionCard({ session }: SessionCardProps) {
       className={`
         relative flex flex-col rounded-xl border transition-all duration-300
         ${isCurrent
-          ? "bg-white border-2 border-primary shadow-xl shadow-primary/15 current-session-pulse"
+          ? "bg-white border-2 border-primary shadow-2xl shadow-primary/20 current-session-pulse"
           : isLocked
-          ? "bg-gray-50 border-maccabi-border opacity-70"
-          : "bg-white border-maccabi-border hover:shadow-md hover:border-primary-200"
+          ? "bg-gray-50/80 border-maccabi-border opacity-70"
+          : "bg-white border-maccabi-border hover:shadow-lg hover:border-primary-300 hover:-translate-y-0.5"
         }
       `}
     >
       {/* Top accent bar */}
       <div
-        className={`h-1 rounded-t-xl ${
+        className={`h-1.5 rounded-t-xl ${
           isCurrent
-            ? "bg-primary"
+            ? "bg-gradient-to-l from-primary to-secondary"
             : status === "completed"
             ? "bg-secondary"
             : status === "open"
-            ? "bg-gray-300"
+            ? "bg-primary-200"
             : "bg-gray-200"
         }`}
       />
@@ -53,7 +53,7 @@ export default function SessionCard({ session }: SessionCardProps) {
               isCurrent ? "text-primary" : "text-maccabi-muted"
             }`}
           >
-            מפגש {id}
+            מפגש {id.toString().padStart(2, "0")}
           </span>
           <span className={fmt.className}>
             <FmtIcon size={12} />
@@ -85,16 +85,16 @@ export default function SessionCard({ session }: SessionCardProps) {
         {/* Meta info */}
         <div className={`flex flex-col gap-1.5 text-xs ${isLocked ? "text-gray-400" : "text-maccabi-muted"}`}>
           <div className="flex items-center gap-1.5">
-            <Calendar size={12} />
+            <Calendar size={12} className={isCurrent ? "text-primary-400" : ""} />
             <span>{date}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Clock size={12} />
+            <Clock size={12} className={isCurrent ? "text-primary-400" : ""} />
             <span>{duration}</span>
           </div>
           {participants && (
             <div className="flex items-center gap-1.5">
-              <Users size={12} />
+              <Users size={12} className={isCurrent ? "text-primary-400" : ""} />
               <span>{participants}</span>
             </div>
           )}
@@ -104,17 +104,17 @@ export default function SessionCard({ session }: SessionCardProps) {
         <div className="flex-1" />
 
         {/* Status + CTA */}
-        <div className="flex items-center justify-between pt-2 border-t border-maccabi-border">
+        <div className="flex items-center justify-between pt-3 border-t border-maccabi-border">
           <StatusBadge status={status} />
 
           {!isLocked ? (
             <Link
               href={`/session/${id}`}
               className={`
-                inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 min-h-[40px] rounded-lg transition-colors
+                inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 min-h-[40px] rounded-lg transition-all duration-200
                 ${isCurrent
-                  ? "bg-primary text-white hover:bg-primary-600"
-                  : "bg-primary-50 text-primary hover:bg-primary-100"
+                  ? "bg-primary text-white hover:bg-primary-600 shadow-sm shadow-primary/30"
+                  : "bg-primary-50 text-primary border border-primary-200 hover:bg-primary-100"
                 }
               `}
             >

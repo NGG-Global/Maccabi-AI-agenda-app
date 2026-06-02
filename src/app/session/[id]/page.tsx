@@ -60,63 +60,71 @@ export default function SessionPage({ params }: PageProps) {
       </nav>
 
       {/* Session Header Card */}
-      <div className={`card p-4 sm:p-6 space-y-4 ${isCurrent ? "border-primary border-2" : ""}`}>
-        <div className="flex flex-wrap items-center gap-2">
-          <StatusBadge status={session.status} size="md" />
-          <span className={fmt.className}>
-            <FmtIcon size={13} />
-            {fmt.label}
-          </span>
-          <span className="text-sm text-maccabi-muted">מפגש {session.id} מתוך 9</span>
-        </div>
-
-        <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-maccabi-text">
-            {session.title}
-          </h1>
-          <p className="text-maccabi-muted mt-1 text-base">{session.subtitle}</p>
-        </div>
-
-        <p className="text-maccabi-text leading-relaxed text-sm max-w-3xl">
-          {session.description}
-        </p>
-
-        {/* Meta */}
-        <div className="flex flex-wrap gap-5 text-sm text-maccabi-muted pt-1">
-          <div className="flex items-center gap-1.5">
-            <Calendar size={15} className="text-primary-400" />
-            <span>{session.date}</span>
+      <div
+        className={`rounded-xl overflow-hidden border ${
+          isCurrent ? "border-primary border-2 shadow-lg shadow-primary/10" : "border-maccabi-border"
+        }`}
+      >
+        {/* Colored top strip */}
+        <div
+          className="h-2"
+          style={
+            isCurrent
+              ? { background: "linear-gradient(to left, #004B87, #00A651)" }
+              : { background: "#E5E8EC" }
+          }
+        />
+        <div className="bg-white p-4 sm:p-6 space-y-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <StatusBadge status={session.status} size="md" />
+            <span className={fmt.className}>
+              <FmtIcon size={13} />
+              {fmt.label}
+            </span>
+            <span className="text-sm text-maccabi-muted">מפגש {session.id} מתוך 9</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Clock size={15} className="text-primary-400" />
-            <span>{session.duration}</span>
+
+          <div>
+            <h1 className={`text-xl sm:text-2xl lg:text-3xl font-bold ${isCurrent ? "text-primary" : "text-maccabi-text"}`}>
+              {session.title}
+            </h1>
+            <p className="text-maccabi-muted mt-1 text-base">{session.subtitle}</p>
           </div>
-          {session.participants && (
-            <div className="flex items-center gap-1.5">
-              <Users size={15} className="text-primary-400" />
-              <span>{session.participants}</span>
-            </div>
-          )}
-          {session.location && (
-            <div className="flex items-center gap-1.5">
-              <MapPin size={15} className="text-primary-400" />
-              <span>{session.location}</span>
-            </div>
-          )}
+
+          <p className="text-maccabi-text leading-relaxed text-sm max-w-3xl">
+            {session.description}
+          </p>
+
+          {/* Meta */}
+          <div className="flex flex-wrap gap-4 pt-1">
+            {[
+              { Icon: Calendar, text: session.date },
+              { Icon: Clock, text: session.duration },
+              ...(session.participants ? [{ Icon: Users, text: session.participants }] : []),
+              ...(session.location ? [{ Icon: MapPin, text: session.location }] : []),
+            ].map(({ Icon, text }, i) => (
+              <div key={i} className="flex items-center gap-1.5 bg-primary-50 text-primary-700 text-xs font-medium px-2.5 py-1.5 rounded-lg">
+                <Icon size={13} />
+                <span>{text}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
       {isLocked ? (
-        <div className="card p-10 flex flex-col items-center justify-center text-center space-y-4">
-          <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
-            <Lock size={32} className="text-gray-400" />
+        <div className="card p-10 flex flex-col items-center justify-center text-center space-y-5">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary-50 to-primary-100 border border-primary-200 flex items-center justify-center">
+            <Lock size={36} className="text-primary-400" />
           </div>
-          <h2 className="text-xl font-bold text-gray-500">מפגש זה טרם נפתח</h2>
-          <p className="text-maccabi-muted text-sm max-w-md leading-relaxed">
-            תוכן המפגש יהיה זמין לפי לוח הזמנים הרשמי של תוכנית אופק.
-            אנא חזרו בתאריך {session.date}.
-          </p>
+          <div className="space-y-2">
+            <h2 className="text-xl font-bold text-maccabi-text">מפגש זה טרם נפתח</h2>
+            <p className="text-maccabi-muted text-sm max-w-md leading-relaxed">
+              תוכן המפגש יהיה זמין לפי לוח הזמנים הרשמי של תוכנית אופק.
+              אנא חזרו בתאריך {session.date}.
+            </p>
+          </div>
           <Link href="/" className="btn-primary mt-2">
             חזרה למפת המסע
           </Link>
@@ -128,53 +136,64 @@ export default function SessionPage({ params }: PageProps) {
             {/* Agenda */}
             <section className="space-y-3">
               <h2 className="section-title flex items-center gap-2">
-                <ClipboardList size={20} className="text-primary" />
+                <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
+                  <ClipboardList size={15} className="text-white" />
+                </div>
                 אג&#8217;נדת המפגש
               </h2>
-              <div className="space-y-2">
-                {session.agenda.map((item, index) => (
-                  <div
-                    key={index}
-                    className={`card p-4 ${
-                      !item.description && !item.facilitator
-                        ? "bg-gray-50 opacity-60"
-                        : ""
-                    }`}
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                      {/* Time */}
-                      <div className="shrink-0">
-                        <span className="font-mono text-xs font-semibold text-primary bg-primary-50 px-2 py-1 rounded-md">
-                          {item.time}
-                        </span>
+              <div className="relative">
+                {/* Vertical timeline line */}
+                <div className="absolute top-0 bottom-0 right-[1.85rem] w-0.5 bg-primary-100 pointer-events-none" />
+                <div className="space-y-3">
+                  {session.agenda.map((item, index) => (
+                    <div key={index} className="flex items-start gap-3 relative">
+                      {/* Timeline dot */}
+                      <div className="shrink-0 w-14 flex flex-col items-center gap-1 pt-2.5">
+                        <div className={`w-3 h-3 rounded-full border-2 z-10 ${
+                          index === 0 ? "bg-primary border-primary" : "bg-white border-primary-300"
+                        }`} />
                       </div>
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-maccabi-text text-sm">
-                          {item.title}
-                        </h3>
-                        {item.description && (
-                          <p className="text-maccabi-muted text-xs mt-1 leading-relaxed">
-                            {item.description}
-                          </p>
-                        )}
-                        {item.facilitator && (
-                          <p className="text-xs text-primary-500 mt-1 font-medium">
-                            מנחה: {item.facilitator}
-                          </p>
-                        )}
+                      {/* Card */}
+                      <div
+                        className={`flex-1 card p-4 ${
+                          !item.description && !item.facilitator ? "bg-gray-50/60 opacity-70" : "hover:border-primary-200 transition-colors"
+                        }`}
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-start gap-2">
+                          <span className="shrink-0 font-mono text-xs font-bold text-primary bg-primary-50 border border-primary-100 px-2.5 py-1 rounded-md w-fit">
+                            {item.time}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-maccabi-text text-sm">
+                              {item.title}
+                            </h3>
+                            {item.description && (
+                              <p className="text-maccabi-muted text-xs mt-1 leading-relaxed">
+                                {item.description}
+                              </p>
+                            )}
+                            {item.facilitator && (
+                              <p className="text-xs text-secondary-600 mt-1.5 font-medium flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-secondary-400 inline-block" />
+                                מנחה: {item.facilitator}
+                              </p>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </section>
 
             {/* Homework */}
             {session.homework && (
-              <section className="card p-5 border-r-4 border-r-accent space-y-2">
+              <section className="rounded-xl border border-accent-200 border-r-4 border-r-accent bg-accent-50/40 p-5 space-y-2">
                 <h2 className="font-bold text-maccabi-text flex items-center gap-2">
-                  <BookOpen size={18} className="text-accent" />
+                  <div className="w-6 h-6 rounded-md bg-accent flex items-center justify-center">
+                    <BookOpen size={13} className="text-white" />
+                  </div>
                   מטלה לבית
                 </h2>
                 <p className="text-sm text-maccabi-muted leading-relaxed">
@@ -185,9 +204,11 @@ export default function SessionPage({ params }: PageProps) {
 
             {/* Next session prep */}
             {session.nextSessionPrep && (
-              <section className="card p-5 border-r-4 border-r-secondary space-y-2">
+              <section className="rounded-xl border border-secondary-200 border-r-4 border-r-secondary bg-secondary-50/40 p-5 space-y-2">
                 <h2 className="font-bold text-maccabi-text flex items-center gap-2">
-                  <BookOpen size={18} className="text-secondary" />
+                  <div className="w-6 h-6 rounded-md bg-secondary flex items-center justify-center">
+                    <BookOpen size={13} className="text-white" />
+                  </div>
                   הכנה למפגש הבא
                 </h2>
                 <p className="text-sm text-maccabi-muted leading-relaxed">
@@ -203,13 +224,15 @@ export default function SessionPage({ params }: PageProps) {
             {session.digitalTools.length > 0 && (
               <section className="space-y-3">
                 <h2 className="section-title flex items-center gap-2">
-                  <Wrench size={20} className="text-primary" />
+                  <div className="w-7 h-7 rounded-lg bg-secondary flex items-center justify-center">
+                    <Wrench size={14} className="text-white" />
+                  </div>
                   כלים דיגיטליים
                 </h2>
                 <div className="space-y-3">
                   {session.digitalTools.map((tool, index) => (
-                    <div key={index} className="card p-4 space-y-1 hover:border-primary-200 transition-colors">
-                      <h3 className="font-semibold text-sm text-maccabi-text">
+                    <div key={index} className="card p-4 space-y-1.5 hover:border-primary-200 hover:shadow-sm transition-all group">
+                      <h3 className="font-semibold text-sm text-maccabi-text group-hover:text-primary transition-colors">
                         {tool.name}
                       </h3>
                       <p className="text-xs text-maccabi-muted leading-relaxed">
@@ -220,7 +243,7 @@ export default function SessionPage({ params }: PageProps) {
                           href={tool.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs text-primary font-medium hover:underline"
+                          className="inline-flex items-center gap-1 text-xs text-primary font-semibold hover:underline"
                         >
                           פתח כלי ←
                         </a>
@@ -234,7 +257,9 @@ export default function SessionPage({ params }: PageProps) {
             {/* AI Advisor */}
             <section>
               <h2 className="section-title flex items-center gap-2 mb-3">
-                <span className="text-primary">✦</span>
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, #004B87, #00A651)" }}>
+                  <span className="text-white text-xs font-bold">AI</span>
+                </div>
                 יועץ AI אישי
               </h2>
               <AdvisorPanel sessionId={session.id} isAvailable={isCurrent} />

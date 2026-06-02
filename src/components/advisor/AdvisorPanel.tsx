@@ -42,23 +42,27 @@ export default function AdvisorPanel({
 
   if (!isAvailable) {
     return (
-      <div className="card p-6 space-y-4">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
-            <Sparkles size={20} className="text-primary" />
+      <div className="card overflow-hidden space-y-0">
+        {/* Gradient header */}
+        <div
+          className="p-4 flex items-center gap-3"
+          style={{ background: "linear-gradient(135deg, #004B87 0%, #003D6F 100%)" }}
+        >
+          <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+            <Sparkles size={20} className="text-white" />
           </div>
           <div>
-            <h3 className="font-bold text-maccabi-text">יועץ מכבי AI</h3>
-            <p className="text-xs text-maccabi-muted">עוזר אישי חכם לכל מפגש</p>
+            <h3 className="font-bold text-white">יועץ מכבי AI</h3>
+            <p className="text-xs text-primary-200">עוזר אישי חכם לכל מפגש</p>
           </div>
-          <span className="mr-auto badge bg-accent-50 text-accent-700 border border-accent-200">
+          <span className="mr-auto inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-accent text-white">
             בקרוב
           </span>
         </div>
 
+        <div className="p-6 space-y-4">
         {/* Divider */}
-        <div className="border-t border-maccabi-border" />
+        <div className="border-t border-maccabi-border -mt-2" />
 
         {/* Coming soon description */}
         <div className="space-y-3 text-sm text-maccabi-muted leading-relaxed">
@@ -91,21 +95,25 @@ export default function AdvisorPanel({
           />
           <Send size={16} className="text-gray-400" />
         </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="card flex flex-col h-[360px] sm:h-[420px]">
+    <div className="card flex flex-col h-[360px] sm:h-[420px] overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-3 p-4 border-b border-maccabi-border">
-        <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">
+      <div
+        className="flex items-center gap-3 p-4"
+        style={{ background: "linear-gradient(135deg, #004B87 0%, #003D6F 100%)" }}
+      >
+        <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
           <BotMessageSquare size={18} className="text-white" />
         </div>
         <div>
-          <h3 className="font-bold text-maccabi-text text-sm">יועץ מכבי AI</h3>
-          <p className="text-xs text-secondary-600 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-secondary inline-block" />
+          <h3 className="font-bold text-white text-sm">יועץ מכבי AI</h3>
+          <p className="text-xs text-primary-100 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-secondary inline-block animate-pulse" />
             פעיל
           </p>
         </div>
