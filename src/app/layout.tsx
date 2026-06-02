@@ -30,7 +30,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-maccabi-bg font-heebo">
         <Header />
-        <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+        <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
           {children}
         </main>
         <footer className="border-t border-maccabi-border bg-white mt-auto">

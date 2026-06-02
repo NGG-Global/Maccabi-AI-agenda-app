@@ -8,10 +8,42 @@
 **Product name:** מכבי AI | אופק  
 **Client:** Maccabi Healthcare Services  
 **Purpose:** A digital learning companion for "Ofek" — a 9-session management development program for ~100 unit managers at Maccabi.  
-**Primary usage:** During and between program sessions, on desktop and tablet.  
+**Primary usage:** During and between program sessions — on mobile phone first, also on tablet and desktop.  
 **Language:** Hebrew — full RTL (right-to-left) layout throughout. All labels, buttons, and UI text in Hebrew.
 
 **The product is NOT** a generic LMS or content library. It is a focused, clean journey companion. The manager opens it, sees exactly where they are in the program, and knows what to do next — with minimal friction.
+
+---
+
+## ⚠️ Critical Design Requirement: Mobile First
+
+**This is the single most important constraint in this project.**
+
+The app must be designed starting from the smallest screen (375px / iPhone SE) and progressively enhanced for tablet (768px) and desktop (1280px). This is not optional.
+
+### Why Mobile First Matters Here
+- Managers use this app on their phones between sessions, in hallways, and in brief breaks during the program day.
+- A 100-person in-person event means managers may be checking the agenda on their phones while seated.
+- The "during session" use case is almost always mobile.
+
+### Mobile-First Design Rules for Every Screen
+1. **Base layout is single column** — no side-by-side columns at 375px
+2. **Touch targets are minimum 44×44px** — all buttons, links, and interactive elements
+3. **Font sizes**: minimum 14px body, 18px headings at 375px (scale up for larger screens)
+4. **Tap-friendly spacing**: at least 8px between interactive elements
+5. **No hover-only interactions** — all information accessible without hover
+6. **Thumb zone awareness**: primary CTAs in the bottom half of the screen where possible
+7. **Horizontal scroll is forbidden** — no element should cause horizontal overflow
+8. **The current session CTA ("כניסה למפגש") must be immediately visible** without scrolling on mobile
+
+### Breakpoints (Tailwind convention)
+| Breakpoint | Width | Use |
+|---|---|---|
+| Base (mobile) | 375px | **Design starts here** |
+| `sm` | 640px | Small tablet / large phone |
+| `md` | 768px | Tablet |
+| `lg` | 1024px | Laptop |
+| `xl` | 1280px | Desktop |
 
 ---
 
@@ -72,6 +104,46 @@ All screens share a global **Header** component.
 
 **Route:** `/`  
 **Purpose:** The manager sees their full program journey — 9 sessions, progress, and entry point to the current session.
+
+### Layout Structure (Mobile — 375px) ← START HERE
+
+```
+┌─────────────────────────┐  ← 375px
+│  [Header: 56px tall]    │
+│  Logo       [☰ menu]    │
+├─────────────────────────┤
+│  px-4, py-4             │
+│                         │
+│  מסע הלמידה — אופק      │  ← H1, 20px bold
+│  תיאור קצר (1 line)     │  ← 14px muted
+│                         │
+│  ┌─── Progress Card ──┐  │
+│  │ progress bar 100%  │  │
+│  │ 0 / 9 הושלמו       │  │
+│  │ [legend row]       │  │
+│  └────────────────────┘  │
+│                         │
+│  ┌─── Card 1 CURRENT ─┐  │  ← Full width, 2px blue border
+│  │ [מפגש נוכחי ●]     │  │     min-height 140px
+│  │ [פרונטלי badge]    │  │
+│  │ 01 תפיסת תפקיד     │  │  ← 18px bold, primary blue
+│  │ subtitle (muted)   │  │
+│  │ 📅 יוני 2026       │  │
+│  │ ⏱ יום מלא          │  │
+│  │ ─────────────────  │  │
+│  │ [● נוכחי] [כניסה→] │  │  ← CTA: 44px tall
+│  └────────────────────┘  │
+│                         │
+│  ┌─── Card 2 OPEN ────┐  │  ← Full width
+│  │ ...                │  │
+│  └────────────────────┘  │
+│                         │
+│  [Cards 3–9 stacked]    │
+│  (locked cards dimmed)  │
+│                         │
+│  [footer note, 12px]    │
+└─────────────────────────┘
+```
 
 ### Layout Structure (Desktop — 1280px)
 
@@ -173,6 +245,60 @@ This is the most important card. Must be visually distinct.
 
 **Route:** `/session/[id]`  
 **Purpose:** Full detail view for a single session — agenda, tools, homework, AI advisor.
+
+### Layout Structure (Mobile — 375px) ← START HERE
+
+On mobile everything stacks in a single column. Order matters — put the most critical content first.
+
+```
+┌─────────────────────────┐
+│  [Header]               │
+├─────────────────────────┤
+│  px-4, pt-3             │
+│                         │
+│  ← מפת המסע  (breadcrumb, 13px)         │
+│                         │
+│  ┌─── Session Header ─┐  │  ← card, p-4, blue border if current
+│  │ [נוכחי ●] [פרונטלי] │  │
+│  │ 01 of 9            │  │
+│  │                    │  │
+│  │ תפיסת תפקיד        │  │  ← 20px bold
+│  │ subtitle (muted)   │  │
+│  │                    │  │
+│  │ description (14px) │  │
+│  │                    │  │
+│  │ 📅 date  ⏱ duration │  │  ← flex row, 13px
+│  └────────────────────┘  │
+│                         │
+│  ── אג'נדת המפגש ────── │  ← section title, 16px bold
+│                         │
+│  ┌── Agenda Item 1 ───┐  │
+│  │ [09:00] פתיחה...   │  │  ← time badge right, title next
+│  └────────────────────┘  │
+│  ┌── Agenda Item 2 ───┐  │
+│  │ ...                │  │
+│  └────────────────────┘  │
+│  [...more items]        │
+│                         │
+│  ── כלים דיגיטליים ──── │  ← section title
+│  [Tool card 1]          │  ← full width
+│  [Tool card 2]          │
+│                         │
+│  ┌── מטלה לבית ───────┐  │  ← orange right-border card
+│  │ description        │  │
+│  └────────────────────┘  │
+│                         │
+│  ┌── הכנה למפגש הבא ──┐  │  ← green right-border card
+│  │ description        │  │
+│  └────────────────────┘  │
+│                         │
+│  ── יועץ AI אישי ─────── │
+│  [AdvisorPanel]         │  ← full width, 360px tall
+│                         │
+│  ─ Navigation ───────── │
+│  [← מפגש קודם] [הבא →] │  ← row, space-between
+└─────────────────────────┘
+```
 
 ### Layout Structure (Desktop — 1280px)
 
@@ -365,12 +491,14 @@ These appear on cards and headers throughout:
 
 ## Screens to Wireframe (Priority Order)
 
-1. **Home Page — Desktop (1280px)** — full journey map with all 9 session cards in correct states
-2. **Session Page — Desktop, Open State** — session 1, full content visible (agenda, tools, homework, advisor active)
-3. **Session Page — Desktop, Locked State** — session 4, locked content notice
-4. **Home Page — Tablet (768px)** — 2-column responsive layout
-5. **Session Page — Tablet (768px)** — stacked layout, right sidebar moves below
-6. **AI Advisor Panel — Close-up** — both states (active / coming soon) side by side
+Design mobile (375px) first for every screen, then show the larger breakpoint.
+
+1. **Home Page — Mobile (375px)** — single column journey map, all 9 cards stacked, current session prominent at top-of-fold
+2. **Home Page — Desktop (1280px)** — 3-column grid, progress bar, full legend
+3. **Session Page — Mobile (375px), Open State** — session 1, all content in single column (agenda → tools → homework → advisor)
+4. **Session Page — Mobile (375px), Locked State** — session 4, lock notice
+5. **Session Page — Desktop, Open State** — 2/3 + 1/3 column split, full content
+6. **AI Advisor Panel — Mobile close-up** — both states (active / coming soon) stacked, full width
 
 ---
 

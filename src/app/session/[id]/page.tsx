@@ -60,7 +60,7 @@ export default function SessionPage({ params }: PageProps) {
       </nav>
 
       {/* Session Header Card */}
-      <div className={`card p-6 space-y-4 ${isCurrent ? "border-primary border-2" : ""}`}>
+      <div className={`card p-4 sm:p-6 space-y-4 ${isCurrent ? "border-primary border-2" : ""}`}>
         <div className="flex flex-wrap items-center gap-2">
           <StatusBadge status={session.status} size="md" />
           <span className={fmt.className}>
@@ -71,7 +71,7 @@ export default function SessionPage({ params }: PageProps) {
         </div>
 
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-maccabi-text">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-maccabi-text">
             {session.title}
           </h1>
           <p className="text-maccabi-muted mt-1 text-base">{session.subtitle}</p>

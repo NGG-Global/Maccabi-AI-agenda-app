@@ -96,7 +96,7 @@ export default function AdvisorPanel({
   }
 
   return (
-    <div className="card flex flex-col" style={{ height: "420px" }}>
+    <div className="card flex flex-col h-[360px] sm:h-[420px]">
       {/* Header */}
       <div className="flex items-center gap-3 p-4 border-b border-maccabi-border">
         <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">

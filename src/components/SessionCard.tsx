@@ -25,7 +25,7 @@ export default function SessionCard({ session }: SessionCardProps) {
       className={`
         relative flex flex-col rounded-xl border transition-all duration-300
         ${isCurrent
-          ? "bg-white border-primary shadow-lg shadow-primary/10 current-session-pulse scale-[1.02]"
+          ? "bg-white border-2 border-primary shadow-xl shadow-primary/15 current-session-pulse"
           : isLocked
           ? "bg-gray-50 border-maccabi-border opacity-70"
           : "bg-white border-maccabi-border hover:shadow-md hover:border-primary-200"
@@ -111,7 +111,7 @@ export default function SessionCard({ session }: SessionCardProps) {
             <Link
               href={`/session/${id}`}
               className={`
-                inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors
+                inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 min-h-[40px] rounded-lg transition-colors
                 ${isCurrent
                   ? "bg-primary text-white hover:bg-primary-600"
                   : "bg-primary-50 text-primary hover:bg-primary-100"
