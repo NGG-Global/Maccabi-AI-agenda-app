@@ -1,11 +1,11 @@
-# Design Brief — Maccabi AI | Ofek
+# Design Brief — Maccabi AI | agrnda
 ## Wireframe Design Request for Claude Design
 
 ---
 
 ## Project Context
 
-**Product name:** מכבי AI | אופק  
+**Product name:** מכבי AI | אג'נדה  
 **Client:** Maccabi Healthcare Services  
 **Purpose:** A digital learning companion for "Ofek" — a 9-session management development program for ~100 unit managers at Maccabi.  
 **Primary usage:** During and between program sessions — on mobile phone first, also on tablet and desktop.  
