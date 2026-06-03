@@ -7,7 +7,6 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "/", label: "מפת המסע" },
   { href: "#", label: "חומרי למידה" },
-  { href: "#", label: "קהילה" },
 ];
 
 export default function Header() {
