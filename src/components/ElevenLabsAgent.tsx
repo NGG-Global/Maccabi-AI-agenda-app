@@ -1,137 +1,194 @@
 "use client";
 
 import { ConversationProvider, useConversation } from "@elevenlabs/react";
-import { useCallback, useState } from "react";
-import { Mic, MicOff, Loader2 } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Send, Loader2, BotMessageSquare, Sparkles } from "lucide-react";
 
 const AGENT_ID = "agent_9101kt6thg56fn4vnkfq3ga8qshw";
 
-type Phase = "idle" | "requesting" | "connecting" | "connected";
+interface Message {
+  role: "user" | "agent";
+  text: string;
+}
 
-function AgentWidget() {
-  const [phase, setPhase] = useState<Phase>("idle");
+function AgentChat() {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [connected, setConnected] = useState(false);
+  const [connecting, setConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   const conversation = useConversation({
-    onConnect: () => setPhase("connected"),
-    onDisconnect: () => { setPhase("idle"); setError(null); },
+    onConnect: () => { setConnected(true); setConnecting(false); setError(null); },
+    onDisconnect: () => { setConnected(false); setConnecting(false); },
+    onMessage: ({ message, source }) => {
+      if (source === "ai") {
+        setMessages((prev) => [...prev, { role: "agent", text: message }]);
+      }
+    },
     onError: (err) => {
       setError(typeof err === "string" ? err : "שגיאה בחיבור לסוכן");
-      setPhase("idle");
+      setConnecting(false);
+      setConnected(false);
     },
   });
 
-  const start = useCallback(async () => {
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const connect = useCallback(async () => {
+    setConnecting(true);
     setError(null);
-    setPhase("requesting");
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
-      setPhase("connecting");
-      await conversation.startSession({ agentId: AGENT_ID, connectionType: "webrtc" });
+      await conversation.startSession({ agentId: AGENT_ID, connectionType: "websocket" });
     } catch {
-      setError("לא ניתן לגשת למיקרופון. אנא אשר הרשאה ונסה שוב.");
-      setPhase("idle");
+      setError("לא ניתן להתחבר לסוכן. נסה שוב.");
+      setConnecting(false);
     }
   }, [conversation]);
 
-  const stop = useCallback(async () => {
-    await conversation.endSession();
-  }, [conversation]);
+  const send = useCallback(() => {
+    const text = input.trim();
+    if (!text || !connected) return;
+    setMessages((prev) => [...prev, { role: "user", text }]);
+    conversation.sendUserMessage(text);
+    setInput("");
+  }, [input, connected, conversation]);
 
-  const isConnected = phase === "connected";
-  const isLoading = phase === "requesting" || phase === "connecting";
+  const handleKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+  };
 
+  /* ── Not yet connected ── */
+  if (!connected && !connecting) {
+    return (
+      <div className="card p-6 space-y-5 text-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 flex items-center justify-center shadow-inner">
+            <BotMessageSquare size={26} className="text-primary" />
+          </div>
+          <div>
+            <p className="font-bold text-maccabi-text">סוכן קורס מכבי AI</p>
+            <p className="text-xs text-maccabi-muted mt-0.5">עוזר אישי חכם לאורך התוכנית</p>
+          </div>
+        </div>
+
+        <ul className="text-xs text-maccabi-muted space-y-1.5 text-right">
+          {["מענה על שאלות על תוכן המפגש", "עזרה בהכנה ורפלקציה", "הצעות לקריאה נוספת"].map((item) => (
+            <li key={item} className="flex items-start gap-2">
+              <Sparkles size={12} className="text-primary mt-0.5 shrink-0" />
+              {item}
+            </li>
+          ))}
+        </ul>
+
+        {error && (
+          <p className="text-xs text-red-500 bg-red-50 border border-red-100 rounded-lg px-3 py-2">{error}</p>
+        )}
+
+        <button onClick={connect} className="btn-primary w-full justify-center flex items-center gap-2">
+          <BotMessageSquare size={16} />
+          התחל שיחה
+        </button>
+      </div>
+    );
+  }
+
+  /* ── Connecting ── */
+  if (connecting) {
+    return (
+      <div className="card p-8 flex flex-col items-center justify-center gap-3 text-maccabi-muted text-sm">
+        <Loader2 size={24} className="animate-spin text-primary" />
+        <p>מתחבר לסוכן...</p>
+      </div>
+    );
+  }
+
+  /* ── Chat ── */
   return (
-    <div className="card p-5 space-y-4">
+    <div className="card flex flex-col h-[400px] overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${isConnected ? "bg-primary" : "bg-primary-50"}`}>
-          <Mic size={18} className={isConnected ? "text-white" : "text-primary"} />
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-maccabi-border bg-gradient-to-l from-primary-50 to-white shrink-0">
+        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-sm">
+          <BotMessageSquare size={16} className="text-white" />
         </div>
         <div className="flex-1">
-          <p className="font-bold text-maccabi-text text-sm">סוכן קורס מכבי AI</p>
-          <p className="text-xs text-maccabi-muted">עוזר אישי קולי לאורך התוכנית</p>
+          <p className="font-bold text-sm text-maccabi-text leading-none">סוכן קורס מכבי AI</p>
+          <p className="text-xs text-secondary-600 flex items-center gap-1 mt-0.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-secondary-500 inline-block animate-pulse" />
+            מחובר
+          </p>
         </div>
-        {isConnected && (
-          <span className="flex items-center gap-1.5 text-xs font-medium text-secondary-700 bg-secondary-50 border border-secondary-200 px-2.5 py-1 rounded-full">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary-500" />
-            </span>
-            פעיל
-          </span>
-        )}
+        <button
+          onClick={() => conversation.endSession()}
+          className="text-xs text-maccabi-muted hover:text-red-500 transition-colors px-2 py-1 rounded hover:bg-red-50"
+        >
+          סיים
+        </button>
       </div>
 
-      <div className="border-t border-maccabi-border" />
-
-      {/* Speaking / listening indicator */}
-      {isConnected && (
-        <div className="flex items-center justify-center gap-2 py-1">
-          {conversation.isSpeaking ? (
-            <>
-              <span className="flex gap-0.5 items-end h-5">
-                {[1, 2, 3, 4, 3].map((h, i) => (
-                  <span key={i} className="w-1 rounded-full bg-primary animate-pulse" style={{ height: `${h * 4}px`, animationDelay: `${i * 100}ms` }} />
-                ))}
-              </span>
-              <span className="text-xs font-medium text-primary">הסוכן מדבר</span>
-            </>
-          ) : (
-            <>
-              <span className="flex gap-0.5 items-end h-5">
-                {[2, 3, 2, 3, 2].map((h, i) => (
-                  <span key={i} className="w-1 rounded-full bg-secondary-400" style={{ height: `${h * 4}px` }} />
-                ))}
-              </span>
-              <span className="text-xs font-medium text-secondary-600">מאזין...</span>
-            </>
-          )}
-        </div>
-      )}
-
-      {/* Loading */}
-      {isLoading && (
-        <div className="flex items-center justify-center gap-2 py-1 text-xs text-maccabi-muted">
-          <Loader2 size={14} className="animate-spin text-primary" />
-          {phase === "requesting" ? "מבקש גישה למיקרופון..." : "מתחבר לסוכן..."}
-        </div>
-      )}
-
-      {/* Error */}
-      {error && (
-        <p className="text-xs text-red-500 bg-red-50 border border-red-100 rounded-lg px-3 py-2 text-center">
-          {error}
-        </p>
-      )}
-
-      {/* CTA button */}
-      <button
-        onClick={isConnected ? stop : start}
-        disabled={isLoading}
-        className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-all duration-200 ${
-          isConnected
-            ? "bg-red-50 text-red-600 border border-red-200 hover:bg-red-100"
-            : isLoading
-            ? "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
-            : "bg-primary text-white hover:bg-primary-600 shadow-sm shadow-primary/20"
-        }`}
-      >
-        {isConnected ? (
-          <><MicOff size={16} /> סיום שיחה</>
-        ) : isLoading ? (
-          <><Loader2 size={16} className="animate-spin" /> מתחבר...</>
-        ) : (
-          <><Mic size={16} /> התחל שיחה עם הסוכן</>
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 chat-scroll">
+        {messages.length === 0 && (
+          <div className="flex flex-col items-center justify-center h-full gap-2 text-maccabi-muted animate-fade-in">
+            <Sparkles size={20} className="text-primary-200" />
+            <p className="text-xs text-center">שלח הודעה כדי להתחיל את השיחה</p>
+          </div>
         )}
-      </button>
+        {messages.map((msg, i) => (
+          <div
+            key={i}
+            className={`flex animate-fade-in-up ${msg.role === "user" ? "justify-start" : "justify-end"}`}
+          >
+            <div
+              className={`max-w-[82%] px-3 py-2 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                msg.role === "user"
+                  ? "bg-gray-100 text-maccabi-text rounded-tr-sm"
+                  : "bg-primary text-white rounded-tl-sm"
+              }`}
+            >
+              {msg.text}
+            </div>
+          </div>
+        ))}
+        {conversation.isSpeaking && (
+          <div className="flex justify-end animate-fade-in">
+            <div className="bg-primary/10 border border-primary-100 px-3 py-2 rounded-2xl rounded-tl-sm flex items-center gap-1.5">
+              {[1, 2, 3].map((i) => (
+                <span
+                  key={i}
+                  className="w-1 h-3 bg-primary rounded-full animate-wave-bar"
+                  style={{ animationDelay: `${i * 150}ms` }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        <div ref={bottomRef} />
+      </div>
 
-      {!isConnected && !isLoading && (
-        <p className="text-xs text-maccabi-muted text-center leading-relaxed">
-          הסוכן עונה על שאלות, מסייע בהכנה למפגשים ומספק משוב אישי.
-          <br />נדרשת גישה למיקרופון.
-        </p>
-      )}
+      {/* Input */}
+      <div className="px-3 py-3 border-t border-maccabi-border shrink-0">
+        <div className="flex items-center gap-2 bg-gray-50 border border-maccabi-border rounded-xl px-3 py-2 focus-within:border-primary focus-within:bg-white transition-all duration-200 focus-within:shadow-sm">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKey}
+            placeholder="כתוב הודעה..."
+            className="flex-1 bg-transparent text-sm outline-none text-right placeholder:text-maccabi-muted/60"
+            dir="rtl"
+          />
+          <button
+            onClick={send}
+            disabled={!input.trim()}
+            className="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg bg-primary text-white disabled:opacity-30 disabled:bg-gray-300 hover:bg-primary-600 transition-all duration-150 hover:scale-105 active:scale-95"
+          >
+            <Send size={13} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -139,7 +196,7 @@ function AgentWidget() {
 export default function ElevenLabsAgent() {
   return (
     <ConversationProvider>
-      <AgentWidget />
+      <AgentChat />
     </ConversationProvider>
   );
 }
