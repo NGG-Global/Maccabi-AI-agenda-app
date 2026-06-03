@@ -97,6 +97,7 @@ export const sessions: Session[] = [
           description:
             "כלי דיגיטלי לאיסוף תגובות חיות ממשתתפי המפגש — שאלות פתוחות, ענן מילים, ודירוג אנונימי. תוצאות מוצגות בזמן אמת על המסך הגדול ומנחים דיון פתוח.",
           buttonLabel: "כניסה לרפלקציה",
+          url: "https://shared-reflection-ai.lovable.app",
         },
       },
     ],
