@@ -24,10 +24,10 @@ export default function Header() {
             </div>
             <div className="flex flex-col leading-tight">
               <span className="text-white font-bold text-sm sm:text-base tracking-wide">
-                מכבי AI | אופק
+                מכבי AI Master
               </span>
               <span className="text-primary-200 text-xs font-normal hidden sm:block">
-                תוכנית פיתוח מנהלים
+                תוכנית מנהיגות AI
               </span>
             </div>
           </Link>

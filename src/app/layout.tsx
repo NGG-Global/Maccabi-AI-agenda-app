@@ -3,10 +3,10 @@ import "./globals.css";
 import Header from "@/components/Header";
 
 export const metadata: Metadata = {
-  title: "מכבי AI | אופק — תוכנית פיתוח מנהלים",
+  title: "מכבי AI Master",
   description:
-    "פלטפורמת הלמידה הדיגיטלית של תוכנית אופק — פיתוח מנהלים של מכבי שירותי בריאות",
-  keywords: ["מכבי", "אופק", "פיתוח מנהלים", "למידה", "הנהגה"],
+    "פלטפורמת הלמידה הדיגיטלית של תוכנית מכבי AI Master — מנהיגות בעידן הבינה המלאכותית",
+  keywords: ["מכבי", "AI Master", "מנהיגות", "בינה מלאכותית", "פיתוח מנהלים"],
 };
 
 export default function RootLayout({
@@ -36,7 +36,7 @@ export default function RootLayout({
         <footer className="border-t border-maccabi-border bg-white mt-auto">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <p className="text-xs text-maccabi-muted text-center">
-              © 2025 מכבי שירותי בריאות — תוכנית אופק לפיתוח מנהלים. כל הזכויות שמורות.
+              © 2025 מכבי שירותי בריאות — מכבי AI Master. כל הזכויות שמורות.
             </p>
           </div>
         </footer>

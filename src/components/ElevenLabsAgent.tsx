@@ -70,7 +70,7 @@ function AgentChat() {
             <BotMessageSquare size={26} className="text-primary" />
           </div>
           <div>
-            <p className="font-bold text-maccabi-text">סוכן קורס מכבי AI</p>
+            <p className="font-bold text-maccabi-text">סוכן מכבי AI Master</p>
             <p className="text-xs text-maccabi-muted mt-0.5">עוזר אישי חכם לאורך התוכנית</p>
           </div>
         </div>
@@ -115,7 +115,7 @@ function AgentChat() {
           <BotMessageSquare size={16} className="text-white" />
         </div>
         <div className="flex-1">
-          <p className="font-bold text-sm text-maccabi-text leading-none">סוכן קורס מכבי AI</p>
+          <p className="font-bold text-sm text-maccabi-text leading-none">סוכן מכבי AI Master</p>
           <p className="text-xs text-secondary-600 flex items-center gap-1 mt-0.5">
             <span className="w-1.5 h-1.5 rounded-full bg-secondary-500 inline-block animate-pulse" />
             מחובר
