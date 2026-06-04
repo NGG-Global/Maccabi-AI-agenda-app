@@ -1,6 +1,6 @@
 export type SessionStatus = "completed" | "current" | "open";
 
-export type SessionFormat = "frontal" | "virtual" | "external";
+export type SessionFormat = "frontal" | "virtual" | "external" | "self-learning";
 
 export interface AgendaTool {
   name: string;

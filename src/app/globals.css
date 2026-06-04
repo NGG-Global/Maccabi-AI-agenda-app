@@ -61,6 +61,10 @@
     @apply badge bg-accent-50 text-accent-700;
   }
 
+  .badge-self-learning {
+    @apply badge bg-purple-50 text-purple-700;
+  }
+
   .gradient-hero {
     background: linear-gradient(135deg, #004B87 0%, #003D6F 50%, #002F57 100%);
   }
