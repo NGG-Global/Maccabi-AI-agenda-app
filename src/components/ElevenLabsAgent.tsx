@@ -3,9 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Send, Loader2, BotMessageSquare, Sparkles } from "lucide-react";
 
-const AGENT_ID = "agent_9101kt6thg56fn4vnkfq3ga8qshw";
-const WS_URL = `wss://api.elevenlabs.io/v1/convai/conversation?agent_id=${AGENT_ID}`;
-
 interface Message {
   role: "user" | "agent";
   text: string;
@@ -15,24 +12,37 @@ type Phase = "idle" | "connecting" | "connected";
 const THINKING_TIMEOUT_MS = 15000;
 
 export default function ElevenLabsAgent() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput]       = useState("");
-  const [phase, setPhase]       = useState<Phase>("idle");
-  const [error, setError]       = useState<string | null>(null);
-  const [thinking, setThinking] = useState(false);
-  const wsRef        = useRef<WebSocket | null>(null);
-  const bottomRef    = useRef<HTMLDivElement>(null);
+  const [messages, setMessages]   = useState<Message[]>([]);
+  const [input, setInput]         = useState("");
+  const [phase, setPhase]         = useState<Phase>("idle");
+  const [error, setError]         = useState<string | null>(null);
+  const [thinking, setThinking]   = useState(false);
+  const wsRef         = useRef<WebSocket | null>(null);
+  const bottomRef     = useRef<HTMLDivElement>(null);
   const thinkTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, thinking]);
 
-  const connect = useCallback(() => {
+  const connect = useCallback(async () => {
     setError(null);
     setPhase("connecting");
 
-    const ws = new WebSocket(WS_URL);
+    let wsUrl: string;
+    try {
+      const res = await fetch("/api/agent-url");
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error ?? "שגיאה בקבלת כתובת");
+      wsUrl = data.url;
+    } catch (err) {
+      setError("לא ניתן להתחבר לסוכן. בדוק את החיבור ונסה שוב.");
+      setPhase("idle");
+      console.error(err);
+      return;
+    }
+
+    const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -41,7 +51,8 @@ export default function ElevenLabsAgent() {
         conversation_config_override: {
           agent: {
             prompt: {
-              prompt: "You are a concise AI assistant for the Maccabi AI Master leadership program. Answer questions about the program content, sessions, and AI topics. Keep every response to 2–5 sentences maximum. Be direct, practical, and professional.",
+              prompt:
+                "You are a concise AI assistant for the Maccabi AI Master leadership program. Answer questions about the program content, sessions, and AI topics. Keep every response to 2–5 sentences maximum. Be direct, practical, and professional.",
             },
           },
         },
@@ -71,6 +82,7 @@ export default function ElevenLabsAgent() {
     };
 
     ws.onclose = () => {
+      if (thinkTimerRef.current) clearTimeout(thinkTimerRef.current);
       setPhase("idle");
       setThinking(false);
     };
@@ -84,7 +96,10 @@ export default function ElevenLabsAgent() {
     setThinking(false);
   }, []);
 
-  useEffect(() => () => { wsRef.current?.close(); }, []);
+  useEffect(() => () => {
+    if (thinkTimerRef.current) clearTimeout(thinkTimerRef.current);
+    wsRef.current?.close();
+  }, []);
 
   const send = useCallback(() => {
     const text = input.trim();
