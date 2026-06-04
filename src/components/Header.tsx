@@ -30,8 +30,8 @@ export default function Header() {
             />
             <div className="w-px h-6 bg-white/20" />
             <Image
-              src="/image002.png"
-              alt="AI Master"
+              src="/image004.png"
+              alt="BGN"
               width={90}
               height={40}
               className="h-8 sm:h-10 w-auto object-contain"
