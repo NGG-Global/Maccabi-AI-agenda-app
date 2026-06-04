@@ -18,14 +18,32 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center shrink-0" onClick={() => setMenuOpen(false)}>
+          {/* Logos row */}
+          <Link href="/" className="flex items-center gap-3 shrink-0" onClick={() => setMenuOpen(false)}>
             <Image
-              src="/logo.png"
-              alt="Maccabi AI Master"
-              width={140}
-              height={56}
-              className="h-10 sm:h-12 w-auto object-contain"
+              src="/image003.png"
+              alt="מכבי"
+              width={90}
+              height={40}
+              className="h-8 sm:h-10 w-auto object-contain"
+              priority
+            />
+            <div className="w-px h-6 bg-white/20" />
+            <Image
+              src="/image004.png"
+              alt="BGN"
+              width={90}
+              height={40}
+              className="h-8 sm:h-10 w-auto object-contain"
+              priority
+            />
+            <div className="w-px h-6 bg-white/20" />
+            <Image
+              src="/image002.png"
+              alt="AI Master"
+              width={90}
+              height={40}
+              className="h-8 sm:h-10 w-auto object-contain"
               priority
             />
           </Link>

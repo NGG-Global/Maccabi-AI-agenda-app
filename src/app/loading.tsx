@@ -55,7 +55,7 @@ export default function Loading() {
         {/* Logo in center */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/logo.png"
+          src="/image003.png"
           alt="Maccabi AI Master"
           style={{ width: 100, height: 100, objectFit: "contain", position: "relative", zIndex: 10 }}
         />
