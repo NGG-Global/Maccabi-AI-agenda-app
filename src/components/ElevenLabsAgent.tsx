@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Send, Loader2, BotMessageSquare, Sparkles } from "lucide-react";
 
+const WS_URL = "wss://api.elevenlabs.io/v1/convai/conversation?agent_id=agent_9101kt6thg56fn4vnkfq3ga8qshw";
+
 interface Message {
   role: "user" | "agent";
   text: string;
@@ -25,24 +27,11 @@ export default function ElevenLabsAgent() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, thinking]);
 
-  const connect = useCallback(async () => {
+  const connect = useCallback(() => {
     setError(null);
     setPhase("connecting");
 
-    let wsUrl: string;
-    try {
-      const res = await fetch("/api/agent-url");
-      const data = await res.json();
-      if (!res.ok || data.error) throw new Error(data.error ?? "שגיאה בקבלת כתובת");
-      wsUrl = data.url;
-    } catch (err) {
-      setError("לא ניתן להתחבר לסוכן. בדוק את החיבור ונסה שוב.");
-      setPhase("idle");
-      console.error(err);
-      return;
-    }
-
-    const ws = new WebSocket(wsUrl);
+    const ws = new WebSocket(WS_URL);
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -64,7 +53,9 @@ export default function ElevenLabsAgent() {
       try {
         const data = JSON.parse(ev.data);
         if (data.type === "ping") {
-          ws.send(JSON.stringify({ type: "pong", event_id: data.ping_event.event_id }));
+          setTimeout(() => {
+            ws.send(JSON.stringify({ type: "pong", event_id: data.ping_event.event_id }));
+          }, data.ping_event.ping_ms ?? 0);
         } else if (data.type === "agent_response") {
           const text = data.agent_response_event?.agent_response ?? data.agent_response;
           if (text) {
@@ -107,7 +98,7 @@ export default function ElevenLabsAgent() {
     setMessages((prev) => [...prev, { role: "user", text }]);
     setThinking(true);
     setInput("");
-    wsRef.current.send(JSON.stringify({ type: "user_message", text }));
+    wsRef.current.send(JSON.stringify({ type: "contextual_update", text }));
     thinkTimerRef.current = setTimeout(() => setThinking(false), THINKING_TIMEOUT_MS);
   }, [input, phase]);
 
