@@ -23,6 +23,7 @@ const formatConfig = {
   frontal: { label: "מפגש פרונטלי", Icon: Building2, className: "badge-frontal" },
   virtual: { label: "מפגש וירטואלי", Icon: Monitor, className: "badge-virtual" },
   external: { label: "ספד חיצוני", Icon: Briefcase, className: "badge-external" },
+  "self-learning": { label: "למידה עצמית", Icon: BookOpen, className: "badge-self-learning" },
 };
 
 interface PageProps {

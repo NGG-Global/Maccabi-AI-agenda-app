@@ -34,7 +34,16 @@ export default function ElevenLabsAgent() {
     wsRef.current = ws;
 
     ws.onopen = () => {
-      ws.send(JSON.stringify({ type: "conversation_initiation_client_data" }));
+      ws.send(JSON.stringify({
+        type: "conversation_initiation_client_data",
+        conversation_config_override: {
+          agent: {
+            prompt: {
+              prompt: "You are a concise AI assistant for the Maccabi AI Master leadership program. Answer questions about the program content, sessions, and AI topics. Keep every response to 2–5 sentences maximum. Be direct, practical, and professional.",
+            },
+          },
+        },
+      }));
       setPhase("connected");
     };
 
