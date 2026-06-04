@@ -37,15 +37,6 @@ export default function Header() {
               className="h-8 sm:h-10 w-auto object-contain"
               priority
             />
-            <div className="w-px h-6 bg-white/20" />
-            <Image
-              src="/image002.png"
-              alt="AI Master"
-              width={90}
-              height={40}
-              className="h-8 sm:h-10 w-auto object-contain"
-              priority
-            />
           </Link>
 
           {/* Desktop nav */}
@@ -64,27 +55,15 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* User + hamburger */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="hidden sm:flex flex-col items-end leading-tight">
-              <span className="text-white text-sm font-medium">שלום, מנהל</span>
-              <span className="text-xs" style={{ color: "#73d9f0" }}>מחזור 2026</span>
-            </div>
-            <div
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 flex items-center justify-center shrink-0"
-              style={{ background: "#1e3a6e", borderColor: "#1e6fe0" }}
-            >
-              <span className="text-white font-semibold text-sm">מ</span>
-            </div>
-            <button
-              onClick={() => setMenuOpen((v) => !v)}
-              className="md:hidden p-1.5 rounded-lg text-white transition-colors"
-              style={{ color: "#73d9f0" }}
-              aria-label={menuOpen ? "סגור תפריט" : "פתח תפריט"}
-            >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
-          </div>
+          {/* Hamburger (mobile only) */}
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            className="md:hidden p-1.5 rounded-lg transition-colors"
+            style={{ color: "#73d9f0" }}
+            aria-label={menuOpen ? "סגור תפריט" : "פתח תפריט"}
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </div>
 
@@ -103,11 +82,6 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <div className="flex items-center gap-2 py-3 text-sm" style={{ color: "#73d9f0" }}>
-              <span>שלום, מנהל</span>
-              <span>·</span>
-              <span className="text-xs">מחזור 2026</span>
-            </div>
           </nav>
         </div>
       )}
