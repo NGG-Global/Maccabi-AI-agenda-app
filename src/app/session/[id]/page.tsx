@@ -21,9 +21,10 @@ import {
 } from "lucide-react";
 
 const formatConfig = {
-  frontal: { label: "מפגש פרונטלי", Icon: Building2, className: "badge-frontal" },
-  virtual: { label: "מפגש וירטואלי", Icon: Monitor, className: "badge-virtual" },
-  external: { label: "ספק חיצוני", Icon: Briefcase, className: "badge-external" },
+  frontal:       { label: "מפגש פרונטלי",  Icon: Building2, className: "badge-frontal" },
+  virtual:       { label: "מפגש וירטואלי", Icon: Monitor,   className: "badge-virtual" },
+  external:      { label: "ספק חיצוני",    Icon: Briefcase, className: "badge-external" },
+  "self-learning": { label: "למידה עצמאית", Icon: BookOpen,  className: "badge-frontal" },
 };
 
 interface PageProps {
@@ -163,6 +164,21 @@ export default function SessionPage({ params }: PageProps) {
                             מנחה: {item.facilitator}
                           </p>
                         )}
+                        {item.tool && (
+                          <div className="mt-3 p-3 rounded-md bg-accent-50 border border-accent-300 space-y-1.5">
+                            <p className="text-xs font-semibold text-accent-900">{item.tool.name}</p>
+                            <p className="text-xs text-maccabi-muted leading-relaxed">{item.tool.description}</p>
+                            <a
+                              href={item.tool.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 btn-accent !min-h-[32px] !py-1 !px-3 !text-xs mt-1"
+                            >
+                              {item.tool.buttonLabel}
+                              <ArrowLeft size={11} />
+                            </a>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -220,9 +236,10 @@ export default function SessionPage({ params }: PageProps) {
                           href={tool.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs text-primary font-medium hover:underline"
+                          className="inline-flex items-center gap-1.5 btn-primary !min-h-[32px] !py-1 !px-3 !text-xs mt-1"
                         >
-                          פתח כלי ←
+                          כניסה לכלי
+                          <ArrowLeft size={11} />
                         </a>
                       )}
                     </div>

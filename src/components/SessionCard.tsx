@@ -1,16 +1,17 @@
 import Link from "next/link";
 import { Session } from "@/types";
 import StatusBadge from "./StatusBadge";
-import { Calendar, Clock, Users, Monitor, Building2, Briefcase, ArrowLeft, Lock } from "lucide-react";
+import { Calendar, Clock, Users, Monitor, Building2, Briefcase, BookOpen, ArrowLeft, Lock } from "lucide-react";
 
 interface SessionCardProps {
   session: Session;
 }
 
 const formatConfig = {
-  frontal:  { label: "פרונטלי",     Icon: Building2, className: "chip-frontal" },
-  virtual:  { label: "וירטואלי",    Icon: Monitor,   className: "chip-virtual" },
-  external: { label: "ספק חיצוני",  Icon: Briefcase, className: "chip-external" },
+  frontal:         { label: "פרונטלי",      Icon: Building2, className: "chip-frontal" },
+  virtual:         { label: "וירטואלי",     Icon: Monitor,   className: "chip-virtual" },
+  external:        { label: "ספק חיצוני",   Icon: Briefcase, className: "chip-external" },
+  "self-learning": { label: "למידה עצמאית", Icon: BookOpen,  className: "chip-frontal" },
 };
 
 const moduleColors = [

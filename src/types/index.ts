@@ -1,12 +1,20 @@
 export type SessionStatus = "completed" | "current" | "open" | "locked";
 
-export type SessionFormat = "frontal" | "virtual" | "external";
+export type SessionFormat = "frontal" | "virtual" | "external" | "self-learning";
+
+export interface AgendaTool {
+  name: string;
+  description: string;
+  buttonLabel: string;
+  url: string;
+}
 
 export interface AgendaItem {
   time: string;
   title: string;
   description: string;
   facilitator?: string;
+  tool?: AgendaTool;
 }
 
 export interface DigitalTool {
