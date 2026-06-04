@@ -12,6 +12,7 @@ interface Message {
 }
 
 type Phase = "idle" | "connecting" | "connected";
+const THINKING_TIMEOUT_MS = 15000;
 
 export default function ElevenLabsAgent() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -19,8 +20,9 @@ export default function ElevenLabsAgent() {
   const [phase, setPhase]       = useState<Phase>("idle");
   const [error, setError]       = useState<string | null>(null);
   const [thinking, setThinking] = useState(false);
-  const wsRef    = useRef<WebSocket | null>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const wsRef        = useRef<WebSocket | null>(null);
+  const bottomRef    = useRef<HTMLDivElement>(null);
+  const thinkTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -53,8 +55,9 @@ export default function ElevenLabsAgent() {
         if (data.type === "ping") {
           ws.send(JSON.stringify({ type: "pong", event_id: data.ping_event.event_id }));
         } else if (data.type === "agent_response") {
-          const text = data.agent_response_event?.agent_response;
+          const text = data.agent_response_event?.agent_response ?? data.agent_response;
           if (text) {
+            if (thinkTimerRef.current) clearTimeout(thinkTimerRef.current);
             setThinking(false);
             setMessages((prev) => [...prev, { role: "agent", text }]);
           }
@@ -74,6 +77,7 @@ export default function ElevenLabsAgent() {
   }, []);
 
   const disconnect = useCallback(() => {
+    if (thinkTimerRef.current) clearTimeout(thinkTimerRef.current);
     wsRef.current?.close();
     wsRef.current = null;
     setPhase("idle");
@@ -88,8 +92,8 @@ export default function ElevenLabsAgent() {
     setMessages((prev) => [...prev, { role: "user", text }]);
     setThinking(true);
     setInput("");
-    // Send as contextual update that triggers a response
-    wsRef.current.send(JSON.stringify({ type: "contextual_update", text }));
+    wsRef.current.send(JSON.stringify({ type: "user_message", text }));
+    thinkTimerRef.current = setTimeout(() => setThinking(false), THINKING_TIMEOUT_MS);
   }, [input, phase]);
 
   const handleKey = (e: React.KeyboardEvent) => {
