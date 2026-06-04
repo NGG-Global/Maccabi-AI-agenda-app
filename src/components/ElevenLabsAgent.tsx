@@ -88,7 +88,7 @@ export default function ElevenLabsAgent() {
     setMessages((prev) => [...prev, { role: "user", text }]);
     setThinking(true);
     setInput("");
-    wsRef.current.send(JSON.stringify({ type: "contextual_update", text }));
+    wsRef.current.send(JSON.stringify({ type: "user_message", text }));
     thinkTimerRef.current = setTimeout(() => setThinking(false), THINKING_TIMEOUT_MS);
   }, [input, phase]);
 
