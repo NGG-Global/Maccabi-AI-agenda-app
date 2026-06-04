@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
@@ -10,81 +9,70 @@ const navLinks = [
   { href: "#", label: "חומרי למידה" },
 ];
 
+function Stripe() {
+  return (
+    <div className="ofek-stripe">
+      <i /><i /><i /><i /><i /><i />
+    </div>
+  );
+}
+
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 shadow-lg" style={{ background: "#04081f" }}>
+    <header className="sticky top-0 z-50 bg-grad-navy shadow-ofek-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
 
-          {/* Logos row */}
-          <Link href="/" className="flex items-center gap-3 shrink-0" onClick={() => setMenuOpen(false)}>
-            <Image
-              src="/image003.png"
-              alt="מכבי"
-              width={90}
-              height={40}
-              className="h-8 sm:h-10 w-auto object-contain"
-              priority
-            />
-            <div className="w-px h-6 bg-white/20" />
-            <Image
-              src="/image004.png"
-              alt="BGN"
-              width={90}
-              height={40}
-              className="h-8 sm:h-10 w-auto object-contain"
-              priority
-            />
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2.5 shrink-0" onClick={() => setMenuOpen(false)}>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white grid place-items-center shadow-ofek-1">
+              <span className="text-primary-700 font-semibold text-base leading-none">מ</span>
+            </div>
+            <div className="flex flex-col leading-tight">
+              <span className="text-white font-semibold text-sm sm:text-base tracking-tight">
+                מכבי AI <span className="text-accent-300">Master</span>
+              </span>
+              <span className="text-primary-300 text-[11px] font-normal hidden sm:block">
+                תוכנית פיתוח מנהלים
+              </span>
+            </div>
           </Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-sm font-medium transition-colors duration-150"
-                style={{ color: "#73d9f0" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-                onMouseLeave={e => (e.currentTarget.style.color = "#73d9f0")}
-              >
+              <Link key={link.label} href={link.href}
+                className="text-primary-300 hover:text-white text-sm font-medium transition-colors">
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          {/* Hamburger (mobile only) */}
-          <button
-            onClick={() => setMenuOpen((v) => !v)}
-            className="md:hidden p-1.5 rounded-lg transition-colors"
-            style={{ color: "#73d9f0" }}
-            aria-label={menuOpen ? "סגור תפריט" : "פתח תפריט"}
-          >
+          {/* Hamburger — mobile only */}
+          <button onClick={() => setMenuOpen((v) => !v)}
+            className="md:hidden p-1.5 rounded-lg text-white hover:bg-primary-600 transition-colors"
+            aria-label={menuOpen ? "סגור תפריט" : "פתח תפריט"}>
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t" style={{ background: "#0a1628", borderColor: "#1e3a6e" }}>
+        <div className="md:hidden bg-primary-800 border-t border-primary-600">
           <nav className="flex flex-col px-4 py-2">
             {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="text-sm font-medium py-3 border-b last:border-0 transition-colors"
-                style={{ color: "#73d9f0", borderColor: "#1e3a6e" }}
-              >
+              <Link key={link.label} href={link.href} onClick={() => setMenuOpen(false)}
+                className="text-primary-300 hover:text-white text-sm font-medium py-3 border-b border-primary-600 last:border-0 transition-colors">
                 {link.label}
               </Link>
             ))}
           </nav>
         </div>
       )}
+
+      <Stripe />
     </header>
   );
 }

@@ -1,12 +1,12 @@
-export type SessionStatus = "completed" | "current" | "open";
+export type SessionStatus = "completed" | "current" | "locked";
 
 export type SessionFormat = "frontal" | "virtual" | "external" | "self-learning";
 
 export interface AgendaTool {
   name: string;
   description: string;
-  url?: string;
-  buttonLabel?: string;
+  buttonLabel: string;
+  url: string;
 }
 
 export interface AgendaItem {
