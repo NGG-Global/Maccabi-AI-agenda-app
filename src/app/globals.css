@@ -1,90 +1,175 @@
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+/* Ploni — custom brand font */
+@font-face {
+  font-family: "Ploni";
+  src: url("/fonts/Ploni-Ultralight-AAA.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ploni";
+  src: url("/fonts/Ploni-Regular-AAA.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ploni";
+  src: url("/fonts/Ploni-Medium-AAA.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ploni";
+  src: url("/fonts/Ploni-Demibold-AAA.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── Design tokens ─────────────────────────────────── */
+:root {
+  --ofek-navy-900:     #040450;
+  --ofek-navy-800:     #0E1F6B;
+  --ofek-navy-700:     #1E3C95;
+  --ofek-navy-600:     #1F3E9B;
+  --ofek-navy-500:     #2B92B7;
+  --ofek-navy-300:     #B8C5E8;
+  --ofek-navy-100:     #EAEEF8;
+
+  --ofek-magenta-900:  #AD2185;
+  --ofek-magenta-700:  #D25089;
+  --ofek-magenta-500:  #E37FA9;
+  --ofek-magenta-300:  #F1B4CE;
+  --ofek-magenta-100:  #FBE6EF;
+
+  --ofek-cat-lavender: #6B76EC;
+  --ofek-cat-cyan:     #73D9F0;
+  --ofek-cat-green:    #A7C86F;
+  --ofek-cat-peach:    #F9BE94;
+  --ofek-cat-coral:    #F1717E;
+  --ofek-cat-magenta:  #D25089;
+
+  --ofek-gray-700:     #535353;
+  --ofek-gray-500:     #808285;
+  --ofek-gray-300:     #C9CACC;
+  --ofek-gray-200:     #E2E3E5;
+  --ofek-gray-100:     #F3F4F6;
+
+  --fg-1:      #171616;
+  --fg-2:      #535353;
+  --fg-3:      #808285;
+  --bg-soft:   #F4F1ED;
+  --bg-surface:#FFFFFF;
+  --stroke-1:  rgba(23,22,22,0.08);
+
+  --r-sm:   8px;
+  --r-md:   14px;
+  --r-lg:   22px;
+  --r-pill: 999px;
+
+  --shadow-1: 0 1px 2px rgba(20,24,60,.04), 0 1px 1px rgba(20,24,60,.03);
+  --shadow-2: 0 6px 16px rgba(20,24,60,.06), 0 2px 4px rgba(20,24,60,.04);
+
+  --grad-navy: linear-gradient(180deg, #1E3C95 0%, #040450 100%);
+
+  --font-family: "Ploni", "Heebo", system-ui, sans-serif;
+}
+
 @layer base {
   html {
-    font-family: 'Heebo', sans-serif;
     direction: rtl;
+    font-family: var(--font-family);
   }
-
   body {
     @apply bg-maccabi-bg text-maccabi-text antialiased;
+    font-family: var(--font-family);
   }
-
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-primary text-white px-4 py-2.5 min-h-[44px] rounded-lg font-medium text-sm
-      hover:bg-primary-600 active:bg-primary-700 transition-colors duration-200
-      focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2;
+  /* ── Ofek colour stripe ──────────────────────────── */
+  .ofek-stripe {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    height: 5px;
+    width: 100%;
   }
+  .ofek-stripe.tall { height: 8px; }
+  .ofek-stripe > i { display: block; }
+  .ofek-stripe > i:nth-child(1) { background: var(--ofek-cat-lavender); }
+  .ofek-stripe > i:nth-child(2) { background: var(--ofek-cat-cyan); }
+  .ofek-stripe > i:nth-child(3) { background: var(--ofek-cat-green); }
+  .ofek-stripe > i:nth-child(4) { background: var(--ofek-cat-peach); }
+  .ofek-stripe > i:nth-child(5) { background: var(--ofek-cat-coral); }
+  .ofek-stripe > i:nth-child(6) { background: var(--ofek-cat-magenta); }
 
-  .btn-secondary {
-    @apply bg-white text-primary border border-primary px-4 py-2.5 min-h-[44px] rounded-lg
-      font-medium text-sm hover:bg-primary-50 active:bg-primary-100 transition-colors duration-200;
-  }
-
+  /* ── Cards ───────────────────────────────────────── */
   .card {
-    @apply bg-white rounded-xl border border-maccabi-border shadow-sm;
+    @apply bg-white rounded-md border border-maccabi-border shadow-ofek-1;
   }
 
-  .section-title {
-    @apply text-xl font-bold text-maccabi-text mb-4;
+  /* Pink frame for current session */
+  .pink-frame {
+    border: 3px solid var(--ofek-magenta-700) !important;
+    box-shadow: var(--shadow-2) !important;
   }
 
-  .badge {
-    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium;
+  /* ── Pills / status badges ───────────────────────── */
+  .pill {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11.5px] font-medium whitespace-nowrap;
+  }
+  .pill-current { background: var(--ofek-magenta-100); color: #6B1645; }
+  .pill-done    { background: #E8F2D6; color: #4F6B26; }
+  .pill-open    { background: var(--ofek-gray-100); color: var(--ofek-gray-700); }
+  .pill-locked  { background: var(--ofek-gray-100); color: var(--ofek-gray-500); }
+
+  /* ── Format chips ────────────────────────────────── */
+  .chip {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium;
+  }
+  .chip-frontal  { background: var(--ofek-navy-100); color: var(--ofek-navy-700); }
+  .chip-virtual  { background: #DBF5FB; color: #157A95; }
+  .chip-external { background: #FDE9D6; color: #8A4A1E; }
+
+  /* ── Buttons ─────────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-1.5 font-medium text-[13px] px-4 py-2 min-h-[40px] rounded-full
+      bg-primary-700 text-white transition-colors hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-300;
+  }
+  .btn-soft {
+    @apply inline-flex items-center justify-center gap-1.5 font-medium text-[13px] px-4 py-2 min-h-[40px] rounded-full
+      bg-primary-100 text-primary-700 transition-colors hover:bg-primary-300 focus:outline-none;
+  }
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-1.5 font-medium text-[13px] px-4 py-2 min-h-[40px] rounded-full
+      bg-accent-700 text-white transition-colors hover:bg-accent-900;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-1.5 font-medium text-[13px] px-4 py-2 min-h-[40px] rounded-full
+      bg-white text-primary-700 border border-primary-700 transition-colors hover:bg-primary-100;
   }
 
-  .badge-frontal {
-    @apply badge bg-primary-50 text-primary-700;
-  }
-
-  .badge-virtual {
-    @apply badge bg-secondary-50 text-secondary-700;
-  }
-
-  .badge-external {
-    @apply badge bg-accent-50 text-accent-700;
+  /* ── Magenta badge circle ────────────────────────── */
+  .magenta-badge {
+    @apply flex items-center justify-center rounded-full bg-accent-700 shadow-ofek-1;
   }
 }
 
 @layer utilities {
-  .rtl-flip {
-    transform: scaleX(-1);
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
-
+  .rtl-flip { transform: scaleX(-1); }
+  .text-balance { text-wrap: balance; }
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-/* Pulse animation for current session */
-@keyframes border-pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(0, 75, 135, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 8px rgba(0, 75, 135, 0);
-  }
-}
-
-.current-session-pulse {
-  animation: border-pulse 2.5s ease-in-out infinite;
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
 }
