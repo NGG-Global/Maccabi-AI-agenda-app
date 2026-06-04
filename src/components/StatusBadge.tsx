@@ -4,7 +4,6 @@ import { SessionStatus } from "@/types";
 const config: Record<SessionStatus, { label: string; className: string }> = {
   completed: { label: "הושלם",       className: "pill-done" },
   current:   { label: "מפגש נוכחי", className: "pill-current" },
-  open:      { label: "פתוח לרישום", className: "pill-open" },
   locked:    { label: "טרם נפתח",   className: "pill-locked" },
 };
 

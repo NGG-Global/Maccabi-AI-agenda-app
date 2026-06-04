@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSessionById, getAdjacentSessions } from "@/data/sessions";
 import StatusBadge from "@/components/StatusBadge";
-import AdvisorPanel from "@/components/advisor/AdvisorPanel";
 import {
   ArrowRight,
   ArrowLeft,
@@ -248,14 +247,6 @@ export default function SessionPage({ params }: PageProps) {
               </section>
             )}
 
-            {/* AI Advisor */}
-            <section>
-              <h2 className="section-title flex items-center gap-2 mb-3">
-                <span className="text-primary">✦</span>
-                יועץ AI אישי
-              </h2>
-              <AdvisorPanel sessionId={session.id} isAvailable={isCurrent} />
-            </section>
           </div>
         </div>
       )}

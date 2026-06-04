@@ -7,7 +7,6 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "/", label: "מפת המסע" },
   { href: "#", label: "חומרי למידה" },
-  { href: "#", label: "קהילה" },
 ];
 
 function Stripe() {
@@ -51,21 +50,12 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* User avatar + hamburger */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="hidden sm:flex flex-col items-end leading-tight">
-              <span className="text-white text-sm font-medium">שלום, מנהל</span>
-              <span className="text-primary-300 text-xs">מחזור 2026</span>
-            </div>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-primary-600 border border-primary-300 grid place-items-center shrink-0">
-              <span className="text-white font-semibold text-sm">מ</span>
-            </div>
-            <button onClick={() => setMenuOpen((v) => !v)}
-              className="md:hidden p-1.5 rounded-lg text-white hover:bg-primary-600 transition-colors"
-              aria-label={menuOpen ? "סגור תפריט" : "פתח תפריט"}>
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
-          </div>
+          {/* Hamburger — mobile only */}
+          <button onClick={() => setMenuOpen((v) => !v)}
+            className="md:hidden p-1.5 rounded-lg text-white hover:bg-primary-600 transition-colors"
+            aria-label={menuOpen ? "סגור תפריט" : "פתח תפריט"}>
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </div>
 

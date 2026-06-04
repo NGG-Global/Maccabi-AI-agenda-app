@@ -1,5 +1,6 @@
 import { sessions } from "@/data/sessions";
 import SessionCard from "./SessionCard";
+import AdvisorPanel from "./advisor/AdvisorPanel";
 
 function ProgressCard() {
   const total = sessions.length;
@@ -35,6 +36,8 @@ function ProgressCard() {
 }
 
 export default function JourneyMap() {
+  const currentSession = sessions.find((s) => s.status === "current");
+
   return (
     <section className="space-y-6 sm:space-y-8">
       {/* Hero — navy gradient panel */}
@@ -56,6 +59,11 @@ export default function JourneyMap() {
         {sessions.map((session) => (
           <SessionCard key={session.id} session={session} />
         ))}
+      </div>
+
+      {/* AI Advisor — always visible on the home page */}
+      <div className="max-w-xl">
+        <AdvisorPanel sessionId={currentSession?.id ?? 1} isAvailable={false} />
       </div>
 
       <p className="text-[11px] text-maccabi-subtle text-center pb-2 leading-relaxed">
