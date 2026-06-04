@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "מפת המסע" },
-  { href: "#", label: "חומרי למידה" },
+  { href: "/materials", label: "חומרי למידה" },
 ];
 
 function Stripe() {
