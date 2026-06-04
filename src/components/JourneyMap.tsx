@@ -61,9 +61,9 @@ export default function JourneyMap() {
         ))}
       </div>
 
-      {/* AI Advisor — always visible on the home page */}
+      {/* AI Advisor */}
       <div className="max-w-xl">
-        <AdvisorPanel sessionId={currentSession?.id ?? 1} isAvailable={false} />
+        <AdvisorPanel sessionId={currentSession?.id ?? 1} />
       </div>
 
       <p className="text-[11px] text-maccabi-subtle text-center pb-2 leading-relaxed">

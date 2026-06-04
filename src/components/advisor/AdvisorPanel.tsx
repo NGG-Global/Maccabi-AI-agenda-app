@@ -1,111 +1,139 @@
 "use client";
 
-import { useState } from "react";
-import { Bot, Send, Sparkles } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Bot, Send } from "lucide-react";
 
 type MessageRole = "assistant" | "user";
 interface Message { role: MessageRole; text: string; }
 
 interface AdvisorPanelProps {
-  sessionId: number;
+  sessionId?: number;
   isAvailable?: boolean;
 }
 
-const seed: Message[] = [
-  { role: "assistant", text: "שלום! אני יועץ מכבי AI. אני כאן כדי להעמיק את הלמידה ממפגש זה — מה תרצו לשאול?" },
+const SEED: Message[] = [
+  {
+    role: "assistant",
+    text: "שלום! אני יועץ מכבי AI. אני כאן להעמיק את הלמידה — שאלו אותי על תוכן המפגשים, כלי AI, ניהול או כל נושא אחר מהתוכנית.",
+  },
 ];
 
-export default function AdvisorPanel({ isAvailable = false }: AdvisorPanelProps) {
-  const [messages, setMessages] = useState<Message[]>(seed);
+export default function AdvisorPanel({ sessionId: _sessionId }: AdvisorPanelProps) {
+  const [messages, setMessages] = useState<Message[]>(SEED);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
-    setMessages((prev) => [
-      ...prev,
-      { role: "user", text: input.trim() },
-      { role: "assistant", text: "תכונת היועץ הדיגיטלי תהיה זמינה בקרוב במכבי AI Master." },
-    ]);
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleSend = async () => {
+    const text = input.trim();
+    if (!text || loading) return;
+
+    const userMsg: Message = { role: "user", text };
+    const updatedMessages = [...messages, userMsg];
+    setMessages(updatedMessages);
     setInput("");
+    setLoading(true);
+
+    // Placeholder for streaming response
+    const placeholder: Message = { role: "assistant", text: "" };
+    setMessages([...updatedMessages, placeholder]);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: updatedMessages.map((m) => ({
+            role: m.role,
+            content: m.text,
+          })),
+        }),
+      });
+
+      if (!res.ok || !res.body) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        accumulated += decoder.decode(value, { stream: true });
+        setMessages([...updatedMessages, { role: "assistant", text: accumulated }]);
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "שגיאה לא ידועה";
+      setMessages([...updatedMessages, { role: "assistant", text: `מצטער, אירעה שגיאה: ${msg}` }]);
+    } finally {
+      setLoading(false);
+      inputRef.current?.focus();
+    }
   };
 
-  if (!isAvailable) {
-    return (
-      <div className="card p-4 space-y-3">
-        <div className="flex items-center gap-3">
-          <span className="magenta-badge w-10 h-10 shrink-0">
-            <Sparkles size={20} className="text-white" />
-          </span>
-          <div className="flex-1">
-            <h3 className="font-semibold text-maccabi-text text-sm">יועץ מכבי AI</h3>
-            <p className="text-xs text-maccabi-subtle">עוזר אישי חכם לכל מפגש</p>
-          </div>
-          <span className="pill bg-white text-accent-700 border border-accent-700">בקרוב</span>
-        </div>
-
-        <p className="text-sm text-maccabi-muted leading-relaxed">
-          יועץ מכבי AI ילווה אתכם לאורך כל הקורס — עונה על שאלות, מסייע בהכנה למפגשים ומספק רפלקציה אישית מותאמת.
-        </p>
-
-        <ul className="space-y-2">
-          {[
-            "מענה לשאלות על תוכן המפגש",
-            "עזרה בהכנת המטלות לבית",
-            "הצעות לקריאה והעמקה",
-            "רפלקציה מונחית אחרי כל מפגש",
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-2.5 text-xs text-maccabi-muted leading-relaxed">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent-700 mt-1.5 shrink-0" />
-              {item}
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex items-center gap-2 bg-maccabi-bg border border-maccabi-border rounded-full px-4 py-2.5 opacity-55">
-          <input disabled placeholder="שאלו את יועץ מכבי AI…" dir="rtl"
-            className="flex-1 bg-transparent text-sm outline-none text-right" />
-          <Send size={16} className="text-maccabi-subtle" />
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="card flex flex-col overflow-hidden h-[360px] sm:h-[440px]">
-      <div className="flex items-center gap-3 p-3.5 border-b border-maccabi-border">
+    <div className="card flex flex-col overflow-hidden" style={{ height: "420px" }}>
+      {/* Header */}
+      <div className="flex items-center gap-3 p-3.5 border-b border-maccabi-border shrink-0">
         <span className="magenta-badge w-10 h-10 shrink-0">
           <Bot size={20} className="text-white" />
         </span>
         <div>
           <h3 className="font-semibold text-maccabi-text text-sm">יועץ מכבי AI</h3>
           <p className="text-xs text-[#4F6B26] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-cat-green inline-block" /> פעיל
+            <span className="w-1.5 h-1.5 rounded-full bg-cat-green inline-block" />
+            פעיל
           </p>
         </div>
       </div>
 
+      {/* Messages */}
       <div className="flex-1 overflow-y-auto p-3.5 space-y-2.5 scrollbar-hide">
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-            <div className={`max-w-[84%] px-3 py-2 text-[13px] leading-relaxed rounded-md ${
+            <div className={`max-w-[84%] px-3 py-2 text-[13px] leading-relaxed rounded-md whitespace-pre-wrap ${
               msg.role === "user"
                 ? "bg-maccabi-bg text-maccabi-text rounded-bl-sm"
                 : "bg-primary-700 text-white rounded-br-sm"
             }`}>
-              {msg.text}
+              {msg.text || (
+                <span className="inline-flex gap-1 items-center opacity-60">
+                  <span className="animate-bounce" style={{ animationDelay: "0ms" }}>•</span>
+                  <span className="animate-bounce" style={{ animationDelay: "150ms" }}>•</span>
+                  <span className="animate-bounce" style={{ animationDelay: "300ms" }}>•</span>
+                </span>
+              )}
             </div>
           </div>
         ))}
+        <div ref={bottomRef} />
       </div>
 
-      <div className="p-3 border-t border-maccabi-border">
+      {/* Input */}
+      <div className="p-3 border-t border-maccabi-border shrink-0">
         <div className="flex items-center gap-2 bg-maccabi-bg border border-maccabi-border rounded-full px-4 py-2.5 focus-within:border-primary-700 transition-colors">
-          <input value={input} onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder="שאלו את יועץ מכבי AI…" dir="rtl"
-            className="flex-1 bg-transparent text-sm outline-none text-right" />
-          <button onClick={handleSend} disabled={!input.trim()}
-            className="text-accent-700 hover:text-accent-900 disabled:text-maccabi-subtle transition-colors">
+          <input
+            ref={inputRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
+            placeholder="שאלו את יועץ מכבי AI…"
+            dir="rtl"
+            disabled={loading}
+            className="flex-1 bg-transparent text-sm outline-none text-right disabled:opacity-50"
+          />
+          <button
+            onClick={handleSend}
+            disabled={!input.trim() || loading}
+            className="text-accent-700 hover:text-accent-900 disabled:text-maccabi-subtle transition-colors"
+          >
             <Send size={18} />
           </button>
         </div>
