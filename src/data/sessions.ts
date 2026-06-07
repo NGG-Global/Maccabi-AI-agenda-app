@@ -25,7 +25,7 @@ export const sessions: Session[] = [
           description:
             "אפליקציה דיגיטלית לניהול משחק המכירה הפומבית — כל משתתף מגיש את הצעותיו בזמן אמת, רואה את הצעות האחרים ועוקב אחר התוצאות על המסך הגדול.",
           buttonLabel: "כניסה למשחק",
-          url: "https://maccabi-ai-auction.vercel.app/join?event=Maccabi-2024",
+          url: "https://maccabi-ai-auction.vercel.app/join?event=maccabi-2024",
         },
       },
       {
@@ -88,7 +88,7 @@ export const sessions: Session[] = [
         name: "אפליקציית מכירה פומבית",
         description:
           "אפליקציה דיגיטלית לניהול משחק המכירה הפומבית — כל משתתף מגיש הצעות בזמן אמת ועוקב אחר התוצאות על המסך המשותף.",
-        url: "https://maccabi-ai-auction.vercel.app/join?event=Maccabi-2024",
+        url: "https://maccabi-ai-auction.vercel.app/join?event=maccabi-2024",
       },
       {
         name: "אפליקציית הסימולציה הניהולית",
