@@ -53,7 +53,7 @@ export const sessions: Session[] = [
           description:
             "פלטפורמת הסימולציה הניהולית — כל קבוצה נכנסת לסביבת ישיבת הצוות שלה, מקבלת גישה לדוחות ונתונים, ועובדת לצד סוכני AI (Performance ו-Well-being) לגיבוש המלצות מבוססות נתונים.",
           buttonLabel: "כניסה לסימולציה",
-          url: "https://hug-my-vision.lovable.app",
+          url: "https://ngg-global.github.io/Maccabi-AI-simulation/",
         },
       },
       {
