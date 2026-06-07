@@ -40,7 +40,7 @@ export default function JourneyMap() {
     <section className="space-y-6 sm:space-y-8">
       {/* Hero — navy gradient panel */}
       <div className="bg-grad-navy rounded-lg p-6 sm:p-8 text-white -mx-4 sm:mx-0">
-        <div className="text-xs font-medium tracking-wide text-accent-300 mb-2">
+        <div className="text-sm font-semibold tracking-wide text-accent-300 mb-2">
           מכבי AI Master · מחזור 2026
         </div>
         <h1 className="text-2xl sm:text-3xl font-semibold leading-tight">
