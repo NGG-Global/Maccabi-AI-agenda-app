@@ -31,7 +31,7 @@ const materials: Material[] = [
   {
     sessionId: 2,
     sessionTitle: "מפגש 2",
-    label: "תקשורת בינאישית",
+    label: "כישורי מנהיגות בעידן ה-AI",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     fileName: null,
     fileSize: null,
@@ -40,7 +40,7 @@ const materials: Material[] = [
   {
     sessionId: 3,
     sessionTitle: "מפגש 3",
-    label: "הובלת צוות מקצועי",
+    label: "כלי AI לעבודה ניהולית",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     fileName: null,
     fileSize: null,
@@ -49,7 +49,7 @@ const materials: Material[] = [
   {
     sessionId: 4,
     sessionTitle: "מפגש 4",
-    label: "ניהול ביצועים",
+    label: "מיישמים AI בשטח",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     fileName: null,
     fileSize: null,
@@ -58,7 +58,7 @@ const materials: Material[] = [
   {
     sessionId: 5,
     sessionTitle: "מפגש 5",
-    label: "פיתוח עובדים",
+    label: "מובילים הטמעה",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     fileName: null,
     fileSize: null,
@@ -67,7 +67,7 @@ const materials: Material[] = [
   {
     sessionId: 6,
     sessionTitle: "מפגש 6",
-    label: "ניהול שינוי",
+    label: "למידה מקדימה — ליאור פרנקל",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     fileName: null,
     fileSize: null,
@@ -76,7 +76,7 @@ const materials: Material[] = [
   {
     sessionId: 7,
     sessionTitle: "מפגש 7",
-    label: "חשיבה אסטרטגית",
+    label: "מפגש 7",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     fileName: null,
     fileSize: null,
@@ -85,7 +85,7 @@ const materials: Material[] = [
   {
     sessionId: 8,
     sessionTitle: "מפגש 8",
-    label: "בריאות ורווחת עובדים",
+    label: "מפגש 8",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     fileName: null,
     fileSize: null,
@@ -94,7 +94,7 @@ const materials: Material[] = [
   {
     sessionId: 9,
     sessionTitle: "מפגש 9",
-    label: "מפגש סיכום ובוגרים",
+    label: "מפגש 9",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     fileName: null,
     fileSize: null,
