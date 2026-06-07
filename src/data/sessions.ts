@@ -106,7 +106,7 @@ export const sessions: Session[] = [
     id: 3,
     title: "כישורי מנהיגות בעידן ה-AI",
     subtitle: "פיתוח מודעות וזהות מנהיגותית",
-    format: "frontal",
+    format: "virtual",
     duration: "",
     date: "05.03.2026",
     status: "locked",

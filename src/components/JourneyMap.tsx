@@ -46,9 +46,6 @@ export default function JourneyMap() {
         <h1 className="text-2xl sm:text-3xl font-semibold leading-tight">
           מנהיגות בעידן הבינה המלאכותית<span className="text-accent-500">.</span>
         </h1>
-        <p className="text-sm text-primary-300 mt-2 max-w-xl leading-relaxed">
-          תשעה מפגשים | חמישה שלבים | פיתוח מנהלים
-        </p>
       </div>
 
       <ProgressCard />
