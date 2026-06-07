@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Session } from "@/types";
 import StatusBadge from "./StatusBadge";
-import { Calendar, Clock, Users, Monitor, Building2, Briefcase, BookOpen, ArrowLeft, Lock } from "lucide-react";
+import { Calendar, Clock, Monitor, Building2, BookOpen, ArrowLeft, Lock } from "lucide-react";
 
 interface SessionCardProps {
   session: Session;
@@ -10,7 +10,6 @@ interface SessionCardProps {
 const formatConfig = {
   frontal:         { label: "פרונטלי",      Icon: Building2, className: "chip-frontal" },
   virtual:         { label: "וירטואלי",     Icon: Monitor,   className: "chip-virtual" },
-  external:        { label: "ספק חיצוני",   Icon: Briefcase, className: "chip-external" },
   "self-learning": { label: "למידה עצמאית", Icon: BookOpen,  className: "chip-frontal" },
 };
 
@@ -20,7 +19,7 @@ const moduleColors = [
 ];
 
 export default function SessionCard({ session }: SessionCardProps) {
-  const { id, title, subtitle, format, duration, participants, date, status, description } = session;
+  const { id, title, subtitle, format, duration, date, status, description } = session;
   const isCurrent = status === "current";
   const isLocked  = status === "locked";
   const fmt = formatConfig[format];
@@ -72,11 +71,6 @@ export default function SessionCard({ session }: SessionCardProps) {
           <div className="flex items-center gap-1.5">
             <Clock size={12} className="text-primary-500" /><span>{duration}</span>
           </div>
-          {participants && (
-            <div className="flex items-center gap-1.5">
-              <Users size={12} className="text-primary-500" /><span>{participants}</span>
-            </div>
-          )}
         </div>
 
         <div className="flex-1" />

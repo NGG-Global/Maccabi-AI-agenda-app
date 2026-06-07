@@ -8,10 +8,8 @@ export const sessions: Session[] = [
     subtitle: "מנהיגות בעידן הבינה המלאכותית",
     format: "frontal",
     duration: "יום מלא",
-    participants: "כ-100 משתתפים",
     date: "15.01.2026",
     status: "current",
-    location: "מרכז הכשרה מכבי, תל אביב",
     description:
       "מפגש הפתיחה של תוכנית מנהיגות בעידן הבינה המלאכותית. המפגש עוסק בהבנת ה-AI כהפרעה אסטרטגית, בשינויים הנדרשים בתפיסת התפקיד הניהולי במכבי, ובפיתוח מודעות אישית לחיזוק כישורים בעידן האג'נטי.",
     agenda: [
@@ -83,26 +81,7 @@ export const sessions: Session[] = [
         },
       },
     ],
-    digitalTools: [
-      {
-        name: "אפליקציית מכירה פומבית",
-        description:
-          "אפליקציה דיגיטלית לניהול משחק המכירה הפומבית — כל משתתף מגיש הצעות בזמן אמת ועוקב אחר התוצאות על המסך המשותף.",
-        url: "https://maccabi-ai-auction.vercel.app/join?event=maccabi-2024",
-      },
-      {
-        name: "אפליקציית הסימולציה הניהולית",
-        description:
-          "פלטפורמת הסימולציה — כל קבוצה עובדת לצד סוכני AI לגיבוש המלצות מבוססות נתונים.",
-        url: "https://hug-my-vision.lovable.app",
-      },
-      {
-        name: "שאלון 3×3 — ניהול בעידן ה-AI",
-        description:
-          "שאלון רפלקציה אישי בשלושה ממדי ניהול. התשובות מוצגות בזמן אמת על לוח משותף.",
-        url: "https://ai-reflection-grid.lovable.app",
-      },
-    ],
+    digitalTools: [],
     homework: "",
     nextSessionPrep: "",
   },
@@ -114,10 +93,8 @@ export const sessions: Session[] = [
     subtitle: "כישורי שיח, הקשבה ומשוב אפקטיבי",
     format: "frontal",
     duration: "חצי יום (4 שעות)",
-    participants: "כ-30 משתתפים בקבוצה",
     date: "12.02.2026",
     status: "locked",
-    location: "מרכז הכשרה מכבי, תל אביב",
     description:
       "מפגש המוקדש לפיתוח כישורי התקשורת הבינאישית של המנהל. נעסוק בהקשבה פעילה, במתן וקבלת משוב, ובניהול שיחות קשות. המפגש כולל תרגול אינטנסיבי בזוגות ובקבוצות קטנות.",
     agenda: [
@@ -177,7 +154,6 @@ export const sessions: Session[] = [
     subtitle: "בניית צוות, תפקידים ודינמיקות קבוצתיות",
     format: "virtual",
     duration: "שעתיים (Zoom)",
-    participants: "עד 25 משתתפים",
     date: "05.03.2026",
     status: "locked",
     description:
@@ -349,12 +325,10 @@ export const sessions: Session[] = [
     id: 7,
     title: "מפגש 7",
     subtitle: "ראייה ארגונית רחבה וקבלת החלטות",
-    format: "external",
+    format: "frontal",
     duration: "יום מלא (8 שעות)",
-    participants: "כ-100 משתתפים",
     date: "02.07.2026",
     status: "locked",
-    location: "מלון לאונרדו, נתניה",
     description:
       "יום עיון חיצוני המוקדש לפיתוח חשיבה אסטרטגית. המנהלים יחשפו לכלים לניתוח סביבה עסקית, לקבלת החלטות בתנאי אי-וודאות וליצירת יתרון תחרותי.",
     agenda: [
@@ -436,10 +410,8 @@ export const sessions: Session[] = [
     subtitle: "סינתזה, עתיד ורשת הבוגרים",
     format: "frontal",
     duration: "יום מלא (8 שעות)",
-    participants: "כ-100 משתתפים",
     date: "15.10.2026",
     status: "locked",
-    location: "מרכז הכנסים מכבי, ראשון לציון",
     description:
       "מפגש הסיכום הגדול של תוכנית אופק. יום חגיגי של רפלקציה, סינתזה ומבט קדימה. המשתתפים יציגו פרויקטים שביצעו, יקבלו תעודות סיום ויצטרפו רשמית לרשת בוגרי אופק.",
     agenda: [

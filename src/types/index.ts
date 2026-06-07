@@ -1,6 +1,6 @@
 export type SessionStatus = "completed" | "current" | "locked";
 
-export type SessionFormat = "frontal" | "virtual" | "external" | "self-learning";
+export type SessionFormat = "frontal" | "virtual" | "self-learning";
 
 export interface AgendaTool {
   name: string;
@@ -30,10 +30,8 @@ export interface Session {
   subtitle: string;
   format: SessionFormat;
   duration: string;
-  participants?: string;
   date: string;
   status: SessionStatus;
-  location?: string;
   agenda: AgendaItem[];
   digitalTools: DigitalTool[];
   homework: string;
