@@ -44,10 +44,10 @@ export default function JourneyMap() {
           מכבי AI Master · מחזור 2026
         </div>
         <h1 className="text-2xl sm:text-3xl font-semibold leading-tight">
-          מסע הלמידה<span className="text-accent-500">.</span>
+          מנהיגות בעידן הבינה המלאכותית<span className="text-accent-500">.</span>
         </h1>
         <p className="text-sm text-primary-300 mt-2 max-w-xl leading-relaxed">
-          תשעה מפגשים של למידה, חשיבה ויישום — מצפן ניהולי לפיתוח מנהלים.
+          תשעה מפגשים | חמישה שלבים | פיתוח מנהלים
         </p>
       </div>
 
