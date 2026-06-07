@@ -67,7 +67,7 @@ const materials: Material[] = [
   {
     sessionId: 6,
     sessionTitle: "מפגש 6",
-    label: "למידה מקדימה — ליאור פרנקל",
+    label: "למידה מקדימה ליאור פרנקל",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     fileName: null,
     fileSize: null,

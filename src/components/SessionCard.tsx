@@ -57,7 +57,9 @@ export default function SessionCard({ session }: SessionCardProps) {
           }`}>
             {title}
           </h3>
-          <p className={`text-xs mt-0.5 ${isLocked ? "text-maccabi-subtle" : "text-maccabi-muted"}`}>{subtitle}</p>
+          {subtitle && (
+            <p className={`text-xs mt-0.5 ${isLocked ? "text-maccabi-subtle" : "text-maccabi-muted"}`}>{subtitle}</p>
+          )}
         </div>
 
         {!isLocked && (
@@ -68,9 +70,11 @@ export default function SessionCard({ session }: SessionCardProps) {
           <div className="flex items-center gap-1.5">
             <Calendar size={12} className="text-primary-500" /><span>{date}</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Clock size={12} className="text-primary-500" /><span>{duration}</span>
-          </div>
+          {duration && (
+            <div className="flex items-center gap-1.5">
+              <Clock size={12} className="text-primary-500" /><span>{duration}</span>
+            </div>
+          )}
         </div>
 
         <div className="flex-1" />
