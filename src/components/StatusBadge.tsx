@@ -1,59 +1,27 @@
+import { CheckCircle2, Lock } from "lucide-react";
 import { SessionStatus } from "@/types";
-import { CheckCircle2, Lock, Circle, Zap } from "lucide-react";
 
-interface StatusBadgeProps {
-  status: SessionStatus;
-  size?: "sm" | "md";
-}
-
-const statusConfig: Record<
-  SessionStatus,
-  { label: string; className: string; Icon: React.ElementType }
-> = {
-  completed: {
-    label: "הושלם",
-    className: "bg-secondary-50 text-secondary-700 border border-secondary-200",
-    Icon: CheckCircle2,
-  },
-  current: {
-    label: "מפגש נוכחי",
-    className: "bg-primary-50 text-primary-700 border border-primary-200",
-    Icon: Zap,
-  },
-  open: {
-    label: "פתוח לרישום",
-    className: "bg-gray-50 text-gray-600 border border-gray-200",
-    Icon: Circle,
-  },
-  locked: {
-    label: "טרם נפתח",
-    className: "bg-gray-50 text-gray-400 border border-gray-200",
-    Icon: Lock,
-  },
+const config: Record<SessionStatus, { label: string; className: string }> = {
+  completed: { label: "הושלם",       className: "pill-done" },
+  current:   { label: "מפגש נוכחי", className: "pill-current" },
+  locked:    { label: "טרם נפתח",   className: "pill-locked" },
 };
 
-export default function StatusBadge({
-  status,
-  size = "sm",
-}: StatusBadgeProps) {
-  const config = statusConfig[status];
-  const Icon = config.Icon;
-  const iconSize = size === "sm" ? 13 : 15;
-  const textClass = size === "sm" ? "text-xs" : "text-sm";
-
+export default function StatusBadge({ status }: { status: SessionStatus }) {
+  const c = config[status];
   return (
-    <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-medium ${textClass} ${config.className}`}
-    >
+    <span className={`pill ${c.className}`}>
       {status === "current" ? (
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500" />
+          <span className="animate-ofek-ping absolute inline-flex h-full w-full rounded-full bg-accent-700 opacity-70" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-700" />
         </span>
+      ) : status === "completed" ? (
+        <CheckCircle2 size={12} strokeWidth={2} />
       ) : (
-        <Icon size={iconSize} strokeWidth={2} />
+        <Lock size={12} strokeWidth={2} />
       )}
-      {config.label}
+      {c.label}
     </span>
   );
 }

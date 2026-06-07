@@ -2,28 +2,23 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSessionById, getAdjacentSessions } from "@/data/sessions";
 import StatusBadge from "@/components/StatusBadge";
-import AdvisorPanel from "@/components/advisor/AdvisorPanel";
 import {
   ArrowRight,
   ArrowLeft,
   Calendar,
   Clock,
-  Users,
-  MapPin,
   Monitor,
   Building2,
-  Briefcase,
   BookOpen,
-  Wrench,
   ClipboardList,
   ChevronRight,
   Lock,
 } from "lucide-react";
 
 const formatConfig = {
-  frontal: { label: "מפגש פרונטלי", Icon: Building2, className: "badge-frontal" },
-  virtual: { label: "מפגש וירטואלי", Icon: Monitor, className: "badge-virtual" },
-  external: { label: "ספק חיצוני", Icon: Briefcase, className: "badge-external" },
+  frontal:         { label: "מפגש פרונטלי",  Icon: Building2, className: "badge-frontal" },
+  virtual:         { label: "מפגש וירטואלי", Icon: Monitor,   className: "badge-virtual" },
+  "self-learning": { label: "למידה עצמאית",  Icon: BookOpen,  className: "badge-frontal" },
 };
 
 interface PageProps {
@@ -62,7 +57,7 @@ export default function SessionPage({ params }: PageProps) {
       {/* Session Header Card */}
       <div className={`card p-4 sm:p-6 space-y-4 ${isCurrent ? "border-primary border-2" : ""}`}>
         <div className="flex flex-wrap items-center gap-2">
-          <StatusBadge status={session.status} size="md" />
+          <StatusBadge status={session.status} />
           <span className={fmt.className}>
             <FmtIcon size={13} />
             {fmt.label}
@@ -91,18 +86,6 @@ export default function SessionPage({ params }: PageProps) {
             <Clock size={15} className="text-primary-400" />
             <span>{session.duration}</span>
           </div>
-          {session.participants && (
-            <div className="flex items-center gap-1.5">
-              <Users size={15} className="text-primary-400" />
-              <span>{session.participants}</span>
-            </div>
-          )}
-          {session.location && (
-            <div className="flex items-center gap-1.5">
-              <MapPin size={15} className="text-primary-400" />
-              <span>{session.location}</span>
-            </div>
-          )}
         </div>
       </div>
 
@@ -122,9 +105,8 @@ export default function SessionPage({ params }: PageProps) {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left column: Agenda + Homework */}
-          <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6">
+          <div className="space-y-6">
             {/* Agenda */}
             <section className="space-y-3">
               <h2 className="section-title flex items-center gap-2">
@@ -163,6 +145,21 @@ export default function SessionPage({ params }: PageProps) {
                             מנחה: {item.facilitator}
                           </p>
                         )}
+                        {item.tool && (
+                          <div className="mt-3 p-3 rounded-md bg-accent-50 border border-accent-300 space-y-1.5">
+                            <p className="text-xs font-semibold text-accent-900">{item.tool.name}</p>
+                            <p className="text-xs text-maccabi-muted leading-relaxed">{item.tool.description}</p>
+                            <a
+                              href={item.tool.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 btn-accent !min-h-[32px] !py-1 !px-3 !text-xs mt-1"
+                            >
+                              {item.tool.buttonLabel}
+                              <ArrowLeft size={11} />
+                            </a>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -195,50 +192,6 @@ export default function SessionPage({ params }: PageProps) {
                 </p>
               </section>
             )}
-          </div>
-
-          {/* Right column: Tools + AI Advisor */}
-          <div className="space-y-5">
-            {/* Digital Tools */}
-            {session.digitalTools.length > 0 && (
-              <section className="space-y-3">
-                <h2 className="section-title flex items-center gap-2">
-                  <Wrench size={20} className="text-primary" />
-                  כלים דיגיטליים
-                </h2>
-                <div className="space-y-3">
-                  {session.digitalTools.map((tool, index) => (
-                    <div key={index} className="card p-4 space-y-1 hover:border-primary-200 transition-colors">
-                      <h3 className="font-semibold text-sm text-maccabi-text">
-                        {tool.name}
-                      </h3>
-                      <p className="text-xs text-maccabi-muted leading-relaxed">
-                        {tool.description}
-                      </p>
-                      {tool.url && (
-                        <a
-                          href={tool.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-primary font-medium hover:underline"
-                        >
-                          פתח כלי ←
-                        </a>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* AI Advisor */}
-            <section>
-              <h2 className="section-title flex items-center gap-2 mb-3">
-                <span className="text-primary">✦</span>
-                יועץ AI אישי
-              </h2>
-              <AdvisorPanel sessionId={session.id} isAvailable={isCurrent} />
-            </section>
           </div>
         </div>
       )}
