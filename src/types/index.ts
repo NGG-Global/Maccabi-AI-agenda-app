@@ -32,6 +32,7 @@ export interface Session {
   duration: string;
   date: string;
   status: SessionStatus;
+  location?: string;
   agenda: AgendaItem[];
   digitalTools: DigitalTool[];
   homework: string;

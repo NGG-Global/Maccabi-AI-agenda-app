@@ -7,6 +7,7 @@ import {
   ArrowLeft,
   Calendar,
   Clock,
+  MapPin,
   Monitor,
   Building2,
   BookOpen,
@@ -82,10 +83,18 @@ export default function SessionPage({ params }: PageProps) {
             <Calendar size={15} className="text-primary-400" />
             <span>{session.date}</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Clock size={15} className="text-primary-400" />
-            <span>{session.duration}</span>
-          </div>
+          {session.duration && (
+            <div className="flex items-center gap-1.5">
+              <Clock size={15} className="text-primary-400" />
+              <span>{session.duration}</span>
+            </div>
+          )}
+          {session.location && (
+            <div className="flex items-center gap-1.5">
+              <MapPin size={15} className="text-primary-400" />
+              <span>{session.location}</span>
+            </div>
+          )}
         </div>
       </div>
 
