@@ -26,6 +26,12 @@ export const sessions: Session[] = [
           buttonLabel: "כניסה למשחק",
           url: "https://maccabi-ai-auction.vercel.app/join?event=maccabi-2024",
         },
+        downloads: [
+          { label: "דוח זמינות תורים", fileName: "דוח-זמינות-תורים-2026.xlsx" },
+          { label: "דוח ביצועים לפי מגזר", fileName: "דוח-ביצועים-לפי-מגזר-2026.xlsx" },
+          { label: "דוח למידה ארגונית", fileName: "דוח-למידה-ארגונית-2026.xlsx" },
+          { label: "דוח חוסן ארגוני", fileName: "דוח-חוסן-ארגוני-2026.xlsx" },
+        ],
       },
       {
         time: "09:30–10:30",

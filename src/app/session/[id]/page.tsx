@@ -14,6 +14,8 @@ import {
   ClipboardList,
   ChevronRight,
   Lock,
+  Download,
+  FileSpreadsheet,
 } from "lucide-react";
 
 const formatConfig = {
@@ -167,6 +169,28 @@ export default function SessionPage({ params }: PageProps) {
                               {item.tool.buttonLabel}
                               <ArrowLeft size={11} />
                             </a>
+                          </div>
+                        )}
+                        {item.downloads && item.downloads.length > 0 && (
+                          <div className="mt-3 p-3 rounded-md bg-primary-50 border border-primary-200 space-y-2">
+                            <p className="text-xs font-semibold text-primary-700 flex items-center gap-1.5">
+                              <Download size={13} />
+                              חומרי הסימולציה
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              {item.downloads.map((dl) => (
+                                <a
+                                  key={dl.fileName}
+                                  href={`/materials/${dl.fileName}`}
+                                  download
+                                  className="flex items-center gap-2 text-xs text-primary-700 bg-white border border-primary-200 rounded-md px-3 py-2 hover:bg-primary-50 transition-colors"
+                                >
+                                  <FileSpreadsheet size={13} className="shrink-0 text-primary-500" />
+                                  <span className="truncate">{dl.label}</span>
+                                  <Download size={11} className="shrink-0 mr-auto opacity-50" />
+                                </a>
+                              ))}
+                            </div>
                           </div>
                         )}
                       </div>
