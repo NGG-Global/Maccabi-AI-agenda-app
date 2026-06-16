@@ -53,7 +53,7 @@ const materials: Material[] = [
   {
     sessionId: 4,
     sessionTitle: "מפגש 4",
-    label: "כלי AI לעבודה ניהולית",
+    label: "מיישמים AI בשטח",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     files: null,
     available: false,
@@ -61,7 +61,7 @@ const materials: Material[] = [
   {
     sessionId: 5,
     sessionTitle: "מפגש 5",
-    label: "כלי AI לעבודה ניהולית",
+    label: "מיישמים AI בשטח",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     files: null,
     available: false,
@@ -69,30 +69,6 @@ const materials: Material[] = [
   {
     sessionId: 6,
     sessionTitle: "מפגש 6",
-    label: "כלי AI לעבודה ניהולית",
-    description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    files: null,
-    available: false,
-  },
-  {
-    sessionId: 7,
-    sessionTitle: "מפגש 7",
-    label: "מיישמים AI בשטח",
-    description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    files: null,
-    available: false,
-  },
-  {
-    sessionId: 8,
-    sessionTitle: "מפגש 8",
-    label: "מיישמים AI בשטח",
-    description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    files: null,
-    available: false,
-  },
-  {
-    sessionId: 9,
-    sessionTitle: "מפגש 9",
     label: "מובילים הטמעה",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
     files: null,

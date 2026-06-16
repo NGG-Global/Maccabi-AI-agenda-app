@@ -29,12 +29,12 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return Array.from({ length: 9 }, (_, i) => ({ id: String(i + 1) }));
+  return Array.from({ length: 6 }, (_, i) => ({ id: String(i + 1) }));
 }
 
 export default function SessionPage({ params }: PageProps) {
   const sessionId = parseInt(params.id, 10);
-  if (isNaN(sessionId) || sessionId < 1 || sessionId > 9) notFound();
+  if (isNaN(sessionId) || sessionId < 1 || sessionId > 6) notFound();
 
   const session = getSessionById(sessionId);
   if (!session) notFound();
@@ -65,7 +65,7 @@ export default function SessionPage({ params }: PageProps) {
             <FmtIcon size={13} />
             {fmt.label}
           </span>
-          <span className="text-sm text-maccabi-muted">מפגש {session.id} מתוך 9</span>
+          <span className="text-sm text-maccabi-muted">מפגש {session.id} מתוך 6</span>
         </div>
 
         <div>
