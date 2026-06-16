@@ -3,17 +3,21 @@ import {
   Download,
   FileText,
   ArrowRight,
-  Presentation,
   Lock,
 } from "lucide-react";
+
+interface MaterialFile {
+  label: string;
+  fileName: string;
+  fileSize: string;
+}
 
 interface Material {
   sessionId: number;
   sessionTitle: string;
   label: string;
   description: string;
-  fileName: string | null;
-  fileSize: string | null;
+  files: MaterialFile[] | null;
   available: boolean;
 }
 
@@ -23,9 +27,11 @@ const materials: Material[] = [
     sessionTitle: "מפגש 1",
     label: "ניהול בעידן האג'נטי",
     description:
-      "מצגת המפגש המלאה: מתווה יום ראשון, רקע לסימולציה, תפקידי המשתתפים, שאלות לרפלקציה וסיכום תובנות.",
-    fileName: "session-1-agentic-management.pptx",
-    fileSize: "20 MB",
+      "חומרי המפגש המלאים: מצגות המפגש ורקע תיאורטי לתוכנית.",
+    files: [
+      { label: "חומרי מפגש 1", fileName: "session-1-materials.pdf", fileSize: "3.2 MB" },
+      { label: "AI Master — מבוא לתוכנית", fileName: "session-1-ai-master.pdf", fileSize: "2.4 MB" },
+    ],
     available: true,
   },
   {
@@ -33,8 +39,7 @@ const materials: Material[] = [
     sessionTitle: "מפגש 2",
     label: "כישורי מנהיגות בעידן ה-AI",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
@@ -42,8 +47,7 @@ const materials: Material[] = [
     sessionTitle: "מפגש 3",
     label: "כישורי מנהיגות בעידן ה-AI",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
@@ -51,8 +55,7 @@ const materials: Material[] = [
     sessionTitle: "מפגש 4",
     label: "כלי AI לעבודה ניהולית",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
@@ -60,8 +63,7 @@ const materials: Material[] = [
     sessionTitle: "מפגש 5",
     label: "כלי AI לעבודה ניהולית",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
@@ -69,8 +71,7 @@ const materials: Material[] = [
     sessionTitle: "מפגש 6",
     label: "כלי AI לעבודה ניהולית",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
@@ -78,8 +79,7 @@ const materials: Material[] = [
     sessionTitle: "מפגש 7",
     label: "מיישמים AI בשטח",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
@@ -87,8 +87,7 @@ const materials: Material[] = [
     sessionTitle: "מפגש 8",
     label: "מיישמים AI בשטח",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
@@ -96,13 +95,11 @@ const materials: Material[] = [
     sessionTitle: "מפגש 9",
     label: "מובילים הטמעה",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
 ];
 
-// Ofek categorical colours — one per session, fixed order
 const sessionColors = [
   "#6B76EC", "#73D9F0", "#A7C86F", "#F9BE94",
   "#F1717E", "#D25089", "#1E3C95", "#2B92B7", "#040450",
@@ -179,20 +176,23 @@ export default function MaterialsPage() {
                 <div className="flex-1" />
 
                 {/* Download area */}
-                {m.available && m.fileName ? (
-                  <div className="pt-3 border-t border-maccabi-border flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 text-xs text-maccabi-muted">
-                      <Presentation size={14} className="text-primary-500 shrink-0" />
-                      <span>מצגת PowerPoint · {m.fileSize}</span>
-                    </div>
-                    <a
-                      href={`/materials/${m.fileName}`}
-                      download
-                      className="btn-primary !min-h-[34px] !py-1.5 !px-3 !text-xs flex items-center gap-1.5"
-                    >
-                      <Download size={12} />
-                      הורדה
-                    </a>
+                {m.available && m.files && m.files.length > 0 ? (
+                  <div className="pt-3 border-t border-maccabi-border space-y-2">
+                    {m.files.map((f) => (
+                      <a
+                        key={f.fileName}
+                        href={`/materials/${f.fileName}`}
+                        download
+                        className="flex items-center gap-2 w-full text-xs text-primary-700 bg-primary-50 border border-primary-200 rounded-md px-3 py-2 hover:bg-primary-100 transition-colors"
+                      >
+                        <FileText size={13} className="shrink-0 text-primary-500" />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium truncate">{f.label}</div>
+                          <div className="text-maccabi-muted text-[11px]">PDF · {f.fileSize}</div>
+                        </div>
+                        <Download size={12} className="shrink-0 opacity-50" />
+                      </a>
+                    ))}
                   </div>
                 ) : (
                   <div className="pt-3 border-t border-maccabi-border flex items-center gap-2 text-xs text-maccabi-subtle">
