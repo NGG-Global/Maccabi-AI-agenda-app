@@ -9,7 +9,7 @@ export const sessions: Session[] = [
     format: "frontal",
     duration: "יום מלא",
     date: "17.06.2026",
-    location: "קמפוס מייקרוסופט, הרצליה",
+    location: "קמפוס הלמידה",
     status: "current",
     description:
       "מפגש הפתיחה של תוכנית מנהיגות בעידן הבינה המלאכותית. המפגש עוסק בהבנת ה-AI כהפרעה אסטרטגית, בשינויים הנדרשים בתפיסת התפקיד הניהולי במכבי, ובפיתוח מודעות אישית לחיזוק כישורים בעידן האג'נטי.",
@@ -26,12 +26,6 @@ export const sessions: Session[] = [
           buttonLabel: "כניסה למשחק",
           url: "https://maccabi-ai-auction.vercel.app/join?event=maccabi-2024",
         },
-        downloads: [
-          { label: "דוח זמינות תורים", fileName: "דוח-זמינות-תורים-2026.xlsx" },
-          { label: "דוח ביצועים לפי מגזר", fileName: "דוח-ביצועים-לפי-מגזר-2026.xlsx" },
-          { label: "דוח למידה ארגונית", fileName: "דוח-למידה-ארגונית-2026.xlsx" },
-          { label: "דוח חוסן ארגוני", fileName: "דוח-חוסן-ארגוני-2026.xlsx" },
-        ],
       },
       {
         time: "09:30–10:30",
@@ -62,6 +56,12 @@ export const sessions: Session[] = [
           buttonLabel: "כניסה לסימולציה",
           url: "https://ngg-global.github.io/Maccabi-AI-simulation/",
         },
+        downloads: [
+          { label: "דוח זמינות תורים", fileName: "דוח-זמינות-תורים-2026.xlsx" },
+          { label: "דוח ביצועים לפי מגזר", fileName: "דוח-ביצועים-לפי-מגזר-2026.xlsx" },
+          { label: "דוח למידה ארגונית", fileName: "דוח-למידה-ארגונית-2026.xlsx" },
+          { label: "דוח חוסן ארגוני", fileName: "דוח-חוסן-ארגוני-2026.xlsx" },
+        ],
       },
       {
         time: "13:00–13:45",
