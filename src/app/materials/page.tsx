@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   Download,
   FileText,
+  FileType,
   ArrowRight,
   Lock,
 } from "lucide-react";
@@ -10,6 +11,7 @@ interface MaterialFile {
   label: string;
   fileName: string;
   fileSize: string;
+  type?: "pdf" | "docx";
 }
 
 interface Material {
@@ -29,8 +31,9 @@ const materials: Material[] = [
     description:
       "חומרי המפגש המלאים: מצגות המפגש ורקע תיאורטי לתוכנית.",
     files: [
-      { label: "חומרי מפגש 1", fileName: "session-1-materials.pdf", fileSize: "3.2 MB" },
-      { label: "AI Master — מבוא לתוכנית", fileName: "session-1-ai-master.pdf", fileSize: "2.4 MB" },
+      { label: "חומרי מפגש 1", fileName: "session-1-materials.pdf", fileSize: "3.2 MB", type: "pdf" },
+      { label: "AI Master — מבוא לתוכנית", fileName: "session-1-ai-master.pdf", fileSize: "2.4 MB", type: "pdf" },
+      { label: "מאמר קריאה — 2024", fileName: "session-1-reading-2024.docx", fileSize: "", type: "docx" },
     ],
     available: true,
   },
@@ -154,21 +157,26 @@ export default function MaterialsPage() {
                 {/* Download area */}
                 {m.available && m.files && m.files.length > 0 ? (
                   <div className="pt-3 border-t border-maccabi-border space-y-2">
-                    {m.files.map((f) => (
-                      <a
-                        key={f.fileName}
-                        href={`/materials/${f.fileName}`}
-                        download
-                        className="flex items-center gap-2 w-full text-xs text-primary-700 bg-primary-50 border border-primary-200 rounded-md px-3 py-2 hover:bg-primary-100 transition-colors"
-                      >
-                        <FileText size={13} className="shrink-0 text-primary-500" />
-                        <div className="flex-1 min-w-0">
-                          <div className="font-medium truncate">{f.label}</div>
-                          <div className="text-maccabi-muted text-[11px]">PDF · {f.fileSize}</div>
-                        </div>
-                        <Download size={12} className="shrink-0 opacity-50" />
-                      </a>
-                    ))}
+                    {m.files.map((f) => {
+                      const isDocx = f.type === "docx";
+                      const Icon = isDocx ? FileType : FileText;
+                      const typeLabel = isDocx ? "Word" : "PDF";
+                      return (
+                        <a
+                          key={f.fileName}
+                          href={`/materials/${f.fileName}`}
+                          download
+                          className="flex items-center gap-2 w-full text-xs text-primary-700 bg-primary-50 border border-primary-200 rounded-md px-3 py-2 hover:bg-primary-100 transition-colors"
+                        >
+                          <Icon size={13} className="shrink-0 text-primary-500" />
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium truncate">{f.label}</div>
+                            <div className="text-maccabi-muted text-[11px]">{typeLabel}{f.fileSize ? ` · ${f.fileSize}` : ""}</div>
+                          </div>
+                          <Download size={12} className="shrink-0 opacity-50" />
+                        </a>
+                      );
+                    })}
                   </div>
                 ) : (
                   <div className="pt-3 border-t border-maccabi-border flex items-center gap-2 text-xs text-maccabi-subtle">
