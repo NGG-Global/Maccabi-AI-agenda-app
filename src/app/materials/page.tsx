@@ -4,7 +4,10 @@ import {
   FileText,
   FileType,
   ArrowRight,
+  ArrowUpLeft,
   Lock,
+  Sparkles,
+  ExternalLink,
 } from "lucide-react";
 
 interface MaterialFile {
@@ -109,6 +112,47 @@ export default function MaterialsPage() {
           מצגות, מסמכים וחומרי הכנה לכל מפגשי התוכנית — יתעדכנו לפני כל מפגש.
         </p>
       </div>
+
+      {/* Universal resource — applies across all sessions, not tied to one */}
+      <a
+        href="https://adoption.microsoft.com/en-us/copilot/success-kit/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group relative flex items-center gap-4 overflow-hidden rounded-md bg-white border border-maccabi-border shadow-ofek-1 hover:shadow-ofek-2 transition-all duration-200 p-4 sm:p-5"
+      >
+        {/* Accent bar — leading edge in RTL */}
+        <span className="absolute inset-y-0 right-0 w-1 bg-grad-navy" aria-hidden="true" />
+
+        {/* Icon */}
+        <span className="shrink-0 flex items-center justify-center w-12 h-12 rounded-md bg-primary-50 text-primary-700">
+          <Sparkles size={22} />
+        </span>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-[11px] font-semibold tracking-wider text-accent-700">
+              לכל המפגשים
+            </span>
+            <span className="chip chip-external">
+              <ExternalLink size={11} /> קישור חיצוני
+            </span>
+          </div>
+          <h3 className="font-semibold text-base text-maccabi-text leading-snug">
+            ערכת הטמעה — Microsoft 365 Copilot
+          </h3>
+          <p className="text-xs text-maccabi-muted mt-1 leading-relaxed max-w-2xl">
+            ערכת ההטמעה הרשמית של Microsoft: מדריכים, תרחישי שימוש וכלים מעשיים
+            להטמעת Copilot בארגון — זמינה לכל משתתפי התוכנית, ללא תלות במפגש מסוים.
+          </p>
+        </div>
+
+        {/* Affordance */}
+        <ArrowUpLeft
+          size={18}
+          className="shrink-0 text-maccabi-subtle transition-transform duration-200 group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary-700"
+        />
+      </a>
 
       {/* Materials grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
