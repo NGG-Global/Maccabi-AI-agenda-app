@@ -9,12 +9,18 @@ export interface AgendaTool {
   url: string;
 }
 
+export interface AgendaDownload {
+  label: string;
+  fileName: string;
+}
+
 export interface AgendaItem {
   time: string;
   title: string;
   description: string;
   facilitator?: string;
   tool?: AgendaTool;
+  downloads?: AgendaDownload[];
 }
 
 export interface DigitalTool {
@@ -32,6 +38,7 @@ export interface Session {
   duration: string;
   date: string;
   status: SessionStatus;
+  location?: string;
   agenda: AgendaItem[];
   digitalTools: DigitalTool[];
   homework: string;

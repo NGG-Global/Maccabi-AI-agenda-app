@@ -26,15 +26,15 @@ export default function Header() {
         <div className="flex items-center justify-between h-14 sm:h-16">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0" onClick={() => setMenuOpen(false)}>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white grid place-items-center shadow-ofek-1">
-              <span className="text-primary-700 font-semibold text-base leading-none">מ</span>
-            </div>
-            <div className="flex flex-col leading-tight">
+          <Link href="/" className="flex items-center gap-3 shrink-0" onClick={() => setMenuOpen(false)}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/assets/maccabi-logo.png" alt="מכבי" className="h-7 sm:h-8 w-auto brightness-0 invert" />
+            <div className="w-px h-6 bg-primary-500 hidden sm:block" />
+            <div className="flex flex-col leading-tight hidden sm:flex">
               <span className="text-white font-semibold text-sm sm:text-base tracking-tight">
-                מכבי AI <span className="text-accent-300">Master</span>
+                AI <span className="text-accent-300">Master</span>
               </span>
-              <span className="text-primary-300 text-[11px] font-normal hidden sm:block">
+              <span className="text-primary-300 text-[11px] font-normal">
                 תוכנית פיתוח מנהלים
               </span>
             </div>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Session } from "@/types";
 import StatusBadge from "./StatusBadge";
-import { Calendar, Clock, Monitor, Building2, BookOpen, ArrowLeft, Lock } from "lucide-react";
+import { Calendar, Clock, MapPin, Monitor, Building2, BookOpen, ArrowLeft, Lock } from "lucide-react";
 
 interface SessionCardProps {
   session: Session;
@@ -19,7 +19,7 @@ const moduleColors = [
 ];
 
 export default function SessionCard({ session }: SessionCardProps) {
-  const { id, title, subtitle, format, duration, date, status, description } = session;
+  const { id, title, subtitle, format, duration, date, location, status, description } = session;
   const isCurrent = status === "current";
   const isLocked  = status === "locked";
   const fmt = formatConfig[format];
@@ -73,6 +73,11 @@ export default function SessionCard({ session }: SessionCardProps) {
           {duration && (
             <div className="flex items-center gap-1.5">
               <Clock size={12} className="text-primary-500" /><span>{duration}</span>
+            </div>
+          )}
+          {location && (
+            <div className="flex items-center gap-1.5">
+              <MapPin size={12} className="text-primary-500" /><span>{location}</span>
             </div>
           )}
         </div>

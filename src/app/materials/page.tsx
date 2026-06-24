@@ -2,18 +2,27 @@ import Link from "next/link";
 import {
   Download,
   FileText,
+  FileType,
   ArrowRight,
-  Presentation,
+  ArrowUpLeft,
   Lock,
+  Sparkles,
+  ExternalLink,
 } from "lucide-react";
+
+interface MaterialFile {
+  label: string;
+  fileName: string;
+  fileSize: string;
+  type?: "pdf" | "docx";
+}
 
 interface Material {
   sessionId: number;
   sessionTitle: string;
   label: string;
   description: string;
-  fileName: string | null;
-  fileSize: string | null;
+  files: MaterialFile[] | null;
   available: boolean;
 }
 
@@ -23,9 +32,12 @@ const materials: Material[] = [
     sessionTitle: "מפגש 1",
     label: "ניהול בעידן האג'נטי",
     description:
-      "מצגת המפגש המלאה: מתווה יום ראשון, רקע לסימולציה, תפקידי המשתתפים, שאלות לרפלקציה וסיכום תובנות.",
-    fileName: "session-1-agentic-management.pptx",
-    fileSize: "20 MB",
+      "חומרי המפגש המלאים: מצגות המפגש ורקע תיאורטי לתוכנית.",
+    files: [
+      { label: "חומרי מפגש 1", fileName: "session-1-materials.pdf", fileSize: "3.2 MB", type: "pdf" },
+      { label: "AI Master — מבוא לתוכנית", fileName: "session-1-ai-master.pdf", fileSize: "2.4 MB", type: "pdf" },
+      { label: "מאמר קריאה — 2024", fileName: "session-1-reading-2024.docx", fileSize: "", type: "docx" },
+    ],
     available: true,
   },
   {
@@ -33,8 +45,7 @@ const materials: Material[] = [
     sessionTitle: "מפגש 2",
     label: "כישורי מנהיגות בעידן ה-AI",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
@@ -42,67 +53,35 @@ const materials: Material[] = [
     sessionTitle: "מפגש 3",
     label: "כישורי מנהיגות בעידן ה-AI",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
     sessionId: 4,
     sessionTitle: "מפגש 4",
-    label: "כלי AI לעבודה ניהולית",
+    label: "מיישמים AI בשטח",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
     sessionId: 5,
     sessionTitle: "מפגש 5",
-    label: "כלי AI לעבודה ניהולית",
+    label: "מיישמים AI בשטח",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
   {
     sessionId: 6,
     sessionTitle: "מפגש 6",
-    label: "כלי AI לעבודה ניהולית",
-    description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
-    available: false,
-  },
-  {
-    sessionId: 7,
-    sessionTitle: "מפגש 7",
-    label: "מיישמים AI בשטח",
-    description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
-    available: false,
-  },
-  {
-    sessionId: 8,
-    sessionTitle: "מפגש 8",
-    label: "מיישמים AI בשטח",
-    description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
-    available: false,
-  },
-  {
-    sessionId: 9,
-    sessionTitle: "מפגש 9",
     label: "מובילים הטמעה",
     description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    fileName: null,
-    fileSize: null,
+    files: null,
     available: false,
   },
 ];
 
-// Ofek categorical colours — one per session, fixed order
 const sessionColors = [
   "#6B76EC", "#73D9F0", "#A7C86F", "#F9BE94",
   "#F1717E", "#D25089", "#1E3C95", "#2B92B7", "#040450",
@@ -133,6 +112,47 @@ export default function MaterialsPage() {
           מצגות, מסמכים וחומרי הכנה לכל מפגשי התוכנית — יתעדכנו לפני כל מפגש.
         </p>
       </div>
+
+      {/* Universal resource — applies across all sessions, not tied to one */}
+      <a
+        href="https://adoption.microsoft.com/en-us/copilot/success-kit/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group relative flex items-center gap-4 overflow-hidden rounded-md bg-white border border-maccabi-border shadow-ofek-1 hover:shadow-ofek-2 transition-all duration-200 p-4 sm:p-5"
+      >
+        {/* Accent bar — leading edge in RTL */}
+        <span className="absolute inset-y-0 right-0 w-1 bg-grad-navy" aria-hidden="true" />
+
+        {/* Icon */}
+        <span className="shrink-0 flex items-center justify-center w-12 h-12 rounded-md bg-primary-50 text-primary-700">
+          <Sparkles size={22} />
+        </span>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-[11px] font-semibold tracking-wider text-accent-700">
+              לכל המפגשים
+            </span>
+            <span className="chip chip-external">
+              <ExternalLink size={11} /> קישור חיצוני
+            </span>
+          </div>
+          <h3 className="font-semibold text-base text-maccabi-text leading-snug">
+            ערכת הטמעה — Microsoft 365 Copilot
+          </h3>
+          <p className="text-xs text-maccabi-muted mt-1 leading-relaxed max-w-2xl">
+            ערכת ההטמעה הרשמית של Microsoft: מדריכים, תרחישי שימוש וכלים מעשיים
+            להטמעת Copilot בארגון — זמינה לכל משתתפי התוכנית, ללא תלות במפגש מסוים.
+          </p>
+        </div>
+
+        {/* Affordance */}
+        <ArrowUpLeft
+          size={18}
+          className="shrink-0 text-maccabi-subtle transition-transform duration-200 group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary-700"
+        />
+      </a>
 
       {/* Materials grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -179,20 +199,28 @@ export default function MaterialsPage() {
                 <div className="flex-1" />
 
                 {/* Download area */}
-                {m.available && m.fileName ? (
-                  <div className="pt-3 border-t border-maccabi-border flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 text-xs text-maccabi-muted">
-                      <Presentation size={14} className="text-primary-500 shrink-0" />
-                      <span>מצגת PowerPoint · {m.fileSize}</span>
-                    </div>
-                    <a
-                      href={`/materials/${m.fileName}`}
-                      download
-                      className="btn-primary !min-h-[34px] !py-1.5 !px-3 !text-xs flex items-center gap-1.5"
-                    >
-                      <Download size={12} />
-                      הורדה
-                    </a>
+                {m.available && m.files && m.files.length > 0 ? (
+                  <div className="pt-3 border-t border-maccabi-border space-y-2">
+                    {m.files.map((f) => {
+                      const isDocx = f.type === "docx";
+                      const Icon = isDocx ? FileType : FileText;
+                      const typeLabel = isDocx ? "Word" : "PDF";
+                      return (
+                        <a
+                          key={f.fileName}
+                          href={`/materials/${f.fileName}`}
+                          download
+                          className="flex items-center gap-2 w-full text-xs text-primary-700 bg-primary-50 border border-primary-200 rounded-md px-3 py-2 hover:bg-primary-100 transition-colors"
+                        >
+                          <Icon size={13} className="shrink-0 text-primary-500" />
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium truncate">{f.label}</div>
+                            <div className="text-maccabi-muted text-[11px]">{typeLabel}{f.fileSize ? ` · ${f.fileSize}` : ""}</div>
+                          </div>
+                          <Download size={12} className="shrink-0 opacity-50" />
+                        </a>
+                      );
+                    })}
                   </div>
                 ) : (
                   <div className="pt-3 border-t border-maccabi-border flex items-center gap-2 text-xs text-maccabi-subtle">
