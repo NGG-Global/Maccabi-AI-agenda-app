@@ -44,9 +44,12 @@ const materials: Material[] = [
     sessionId: 2,
     sessionTitle: "מפגש 2",
     label: "כישורי מנהיגות בעידן ה-AI",
-    description: "חומרי המפגש יהיו זמינים לפני מועד המפגש.",
-    files: null,
-    available: false,
+    description:
+      "מצגת המפגש: פיתוח מודעות וזהות מנהיגותית, מיפוי חוזקות ניהוליות ובניית מפת התפתחות אישית.",
+    files: [
+      { label: "AI Master — כישורי מנהיגות בעידן ה-AI", fileName: "session-2-ai-master.pdf", fileSize: "1.4 MB", type: "pdf" },
+    ],
+    available: true,
   },
   {
     sessionId: 3,
