@@ -17,12 +17,18 @@ interface MaterialFile {
   type?: "pdf" | "docx";
 }
 
+interface MaterialLink {
+  label: string;
+  url: string;
+}
+
 interface Material {
   sessionId: number;
   sessionTitle: string;
   label: string;
   description: string;
   files: MaterialFile[] | null;
+  links?: MaterialLink[];
   available: boolean;
 }
 
@@ -48,6 +54,16 @@ const materials: Material[] = [
       "מצגת המפגש: פיתוח מודעות וזהות מנהיגותית, מיפוי חוזקות ניהוליות ובניית מפת התפתחות אישית.",
     files: [
       { label: "AI Master — כישורי מנהיגות בעידן ה-AI", fileName: "session-2-ai-master.pdf", fileSize: "1.4 MB", type: "pdf" },
+    ],
+    links: [
+      {
+        label: "א.נשים מנהלים א.נשים באמצעות מכונות — המכון הישראלי לדמוקרטיה",
+        url: "https://www.idi.org.il/people-manage-people-via-machines/0/",
+      },
+      {
+        label: "למה עידו קנר מקלף תפוח בריאיון עבודה? (וידאו)",
+        url: "https://youtu.be/RR8BYlhuscs",
+      },
     ],
     available: true,
   },
@@ -202,9 +218,9 @@ export default function MaterialsPage() {
                 <div className="flex-1" />
 
                 {/* Download area */}
-                {m.available && m.files && m.files.length > 0 ? (
+                {m.available && ((m.files && m.files.length > 0) || (m.links && m.links.length > 0)) ? (
                   <div className="pt-3 border-t border-maccabi-border space-y-2">
-                    {m.files.map((f) => {
+                    {m.files?.map((f) => {
                       const isDocx = f.type === "docx";
                       const Icon = isDocx ? FileType : FileText;
                       const typeLabel = isDocx ? "Word" : "PDF";
@@ -224,6 +240,22 @@ export default function MaterialsPage() {
                         </a>
                       );
                     })}
+                    {m.links?.map((lk) => (
+                      <a
+                        key={lk.url}
+                        href={lk.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 w-full text-xs text-accent-900 bg-accent-50 border border-accent-300 rounded-md px-3 py-2 hover:bg-accent-100 transition-colors"
+                      >
+                        <ExternalLink size={13} className="shrink-0 text-accent-700" />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium">{lk.label}</div>
+                          <div className="text-maccabi-muted text-[11px]">חומר העשרה · קישור חיצוני</div>
+                        </div>
+                        <ArrowUpLeft size={12} className="shrink-0 opacity-50" />
+                      </a>
+                    ))}
                   </div>
                 ) : (
                   <div className="pt-3 border-t border-maccabi-border flex items-center gap-2 text-xs text-maccabi-subtle">
