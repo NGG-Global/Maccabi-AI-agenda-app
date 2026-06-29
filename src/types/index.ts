@@ -14,6 +14,11 @@ export interface AgendaDownload {
   fileName: string;
 }
 
+export interface AgendaLink {
+  label: string;
+  url: string;
+}
+
 export interface AgendaItem {
   time: string;
   title: string;
@@ -21,6 +26,7 @@ export interface AgendaItem {
   facilitator?: string;
   tool?: AgendaTool;
   downloads?: AgendaDownload[];
+  links?: AgendaLink[];
 }
 
 export interface DigitalTool {

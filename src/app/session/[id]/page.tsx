@@ -16,6 +16,8 @@ import {
   Lock,
   Download,
   FileSpreadsheet,
+  Link2,
+  ExternalLink,
 } from "lucide-react";
 
 const formatConfig = {
@@ -188,6 +190,29 @@ export default function SessionPage({ params }: PageProps) {
                                   <FileSpreadsheet size={13} className="shrink-0 text-primary-500" />
                                   <span className="truncate">{dl.label}</span>
                                   <Download size={11} className="shrink-0 mr-auto opacity-50" />
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        {item.links && item.links.length > 0 && (
+                          <div className="mt-3 p-3 rounded-md bg-accent-50 border border-accent-300 space-y-2">
+                            <p className="text-xs font-semibold text-accent-900 flex items-center gap-1.5">
+                              <Link2 size={13} />
+                              חומרי העשרה
+                            </p>
+                            <div className="space-y-2">
+                              {item.links.map((lk) => (
+                                <a
+                                  key={lk.url}
+                                  href={lk.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex items-center gap-2 text-xs text-accent-900 bg-white border border-accent-300 rounded-md px-3 py-2 hover:bg-accent-50 transition-colors"
+                                >
+                                  <ExternalLink size={13} className="shrink-0 text-accent-700" />
+                                  <span className="flex-1 min-w-0">{lk.label}</span>
+                                  <ArrowLeft size={11} className="shrink-0 opacity-50" />
                                 </a>
                               ))}
                             </div>
