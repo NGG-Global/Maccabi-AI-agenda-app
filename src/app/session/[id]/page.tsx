@@ -158,21 +158,21 @@ export default function SessionPage({ params }: PageProps) {
                             מנחה: {item.facilitator}
                           </p>
                         )}
-                        {item.tool && (
-                          <div className="mt-3 p-3 rounded-md bg-accent-50 border border-accent-300 space-y-1.5">
-                            <p className="text-xs font-semibold text-accent-900">{item.tool.name}</p>
-                            <p className="text-xs text-maccabi-muted leading-relaxed">{item.tool.description}</p>
+                        {[...(item.tool ? [item.tool] : []), ...(item.tools ?? [])].map((tl) => (
+                          <div key={tl.url} className="mt-3 p-3 rounded-md bg-accent-50 border border-accent-300 space-y-1.5">
+                            <p className="text-xs font-semibold text-accent-900">{tl.name}</p>
+                            <p className="text-xs text-maccabi-muted leading-relaxed">{tl.description}</p>
                             <a
-                              href={item.tool.url}
+                              href={tl.url}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1.5 btn-accent !min-h-[32px] !py-1 !px-3 !text-xs mt-1"
                             >
-                              {item.tool.buttonLabel}
+                              {tl.buttonLabel}
                               <ArrowLeft size={11} />
                             </a>
                           </div>
-                        )}
+                        ))}
                         {item.downloads && item.downloads.length > 0 && (
                           <div className="mt-3 p-3 rounded-md bg-primary-50 border border-primary-200 space-y-2">
                             <p className="text-xs font-semibold text-primary-700 flex items-center gap-1.5">

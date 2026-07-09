@@ -25,6 +25,7 @@ export interface AgendaItem {
   description: string;
   facilitator?: string;
   tool?: AgendaTool;
+  tools?: AgendaTool[];
   downloads?: AgendaDownload[];
   links?: AgendaLink[];
 }
