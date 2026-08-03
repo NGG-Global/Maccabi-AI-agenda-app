@@ -110,7 +110,7 @@ export default function SessionPage({ params }: PageProps) {
           </div>
           <h2 className="text-xl font-bold text-gray-500">מפגש זה טרם נפתח</h2>
           <p className="text-maccabi-muted text-sm max-w-md leading-relaxed">
-            תוכן המפגש יהיה זמין לפי לוח הזמנים הרשמי של תוכנית אופק.
+            תוכן המפגש יהיה זמין לפי לוח הזמנים הרשמי של תוכנית AI Master.
             אנא חזרו בתאריך {session.date}.
           </p>
           <Link href="/" className="btn-primary mt-2">
