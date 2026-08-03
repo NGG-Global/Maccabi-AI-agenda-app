@@ -2,24 +2,30 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 
+const SITE_TITLE = "AI Master — תוכנית פיתוח מנהלים";
+const SITE_DESCRIPTION =
+  "פלטפורמת הלמידה הדיגיטלית של תוכנית AI Master לפיתוח מנהלים";
+
 export const metadata: Metadata = {
-  title: "מכבי AI Master — תוכנית פיתוח מנהלים",
-  description:
-    "פלטפורמת הלמידה הדיגיטלית של תוכנית AI Master — פיתוח מנהלים של מכבי שירותי בריאות",
-  keywords: ["מכבי", "AI Master", "פיתוח מנהלים", "למידה", "הנהגה"],
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  keywords: ["AI Master", "פיתוח מנהלים", "למידה", "הנהגה"],
+  // No icon is declared on purpose: link-preview scrapers such as WhatsApp fall
+  // back to the site icon when no og:image exists, which previously exposed a
+  // logo we are not cleared to use.
+  icons: { icon: [], shortcut: [], apple: [], other: [] },
   openGraph: {
-    title: "מכבי AI Master — תוכנית פיתוח מנהלים",
-    description:
-      "פלטפורמת הלמידה הדיגיטלית של תוכנית AI Master — פיתוח מנהלים של מכבי שירותי בריאות",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_TITLE,
     type: "website",
     locale: "he_IL",
     images: [],
   },
   twitter: {
     card: "summary",
-    title: "מכבי AI Master — תוכנית פיתוח מנהלים",
-    description:
-      "פלטפורמת הלמידה הדיגיטלית של תוכנית AI Master — פיתוח מנהלים של מכבי שירותי בריאות",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: [],
   },
 };
@@ -59,7 +65,7 @@ export default function RootLayout({
               <img src="/assets/ngg-logo.png" alt="NGG" className="h-5 w-auto" />
             </div>
             <p className="text-xs text-maccabi-subtle text-center">
-              © 2026 מכבי שירותי בריאות — תוכנית אופק לפיתוח מנהלים. כל הזכויות שמורות.
+              © 2026 מכבי שירותי בריאות — תוכנית AI Master לפיתוח מנהלים. כל הזכויות שמורות.
             </p>
           </div>
         </footer>
