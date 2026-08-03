@@ -3,10 +3,25 @@ import "./globals.css";
 import Header from "@/components/Header";
 
 export const metadata: Metadata = {
-  title: "מכבי AI | אופק — תוכנית פיתוח מנהלים",
+  title: "מכבי AI Master — תוכנית פיתוח מנהלים",
   description:
-    "פלטפורמת הלמידה הדיגיטלית של תוכנית אופק — פיתוח מנהלים של מכבי שירותי בריאות",
-  keywords: ["מכבי", "אופק", "פיתוח מנהלים", "למידה", "הנהגה"],
+    "פלטפורמת הלמידה הדיגיטלית של תוכנית AI Master — פיתוח מנהלים של מכבי שירותי בריאות",
+  keywords: ["מכבי", "AI Master", "פיתוח מנהלים", "למידה", "הנהגה"],
+  openGraph: {
+    title: "מכבי AI Master — תוכנית פיתוח מנהלים",
+    description:
+      "פלטפורמת הלמידה הדיגיטלית של תוכנית AI Master — פיתוח מנהלים של מכבי שירותי בריאות",
+    type: "website",
+    locale: "he_IL",
+    images: [],
+  },
+  twitter: {
+    card: "summary",
+    title: "מכבי AI Master — תוכנית פיתוח מנהלים",
+    description:
+      "פלטפורמת הלמידה הדיגיטלית של תוכנית AI Master — פיתוח מנהלים של מכבי שירותי בריאות",
+    images: [],
+  },
 };
 
 export default function RootLayout({
